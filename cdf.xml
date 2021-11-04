@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<cdf xmlns="http://schema.boschrexroth.com/nject/cdf.xsd" Version="0.1">
+
+  <Info Org="com.boschrexroth" Name="web.deviceadministration" />
+
+  <Dependencies>
+    <!-- Device Admin -->
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.backup" Version="1.2.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/backup/1.2.0"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.certificatemanager" Version="2.1.1" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificate-manager/2.1.1"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.compliance" Version="1.1.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/1.1.1"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.identitymanager" Version="2.0.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identity-manager/2.0.0"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.licensemanager" Version="1.0.1" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/1.0.1"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.networkmanager" Version="1.3.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/network-manager/1.3.0"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.packagemanager" Version="1.5.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/1.5.0"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.storage" Version="1.1.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/1.1.0"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.systeminfo" Version="1.3.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/system/1.3.0"/>
+
+    <!-- Firewall -->
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.firewall" Version="1.2.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-firewall/1.2.0"/>
+
+    <!-- Solutions -->
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.solutions" Version="1.4.2" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-solutions/1.4.2"/>
+
+    <!-- VPN Manager -->
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.vpnmanager" Version="1.0.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-vpnmanager/1.0.0"/>
+
+    <!-- ctrlX WORKS -->
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.plc.engineering" Version="2.0.1" Destination="./private/api/ctrlx-automation/ctrlx-works/plc-engineering/2.0.1"/>
+
+
+  </Dependencies>
+
+</cdf>
