@@ -205,7 +205,7 @@
     "usage": "AsIs",
     "integrationMechanism": "Npm",
     "copyright": {
-      "text": "Copyright [yyyy] [name of copyright owner]"
+      "text": "Code copyright 2012-2018 AJ ONeal\n\nDual-licensed MIT and Apache-2.0"
     },
     "licenses": [
       {
