@@ -44,7 +44,7 @@
     </tr>
     <tr>
       <td><a href="../../app/?urls.primaryName=License%20Manager%20API%20v1.0">ctrlX CORE - Licensing API</a></td>
-      <td><a href="./rexroth-deviceadmin/package-manager/package-manager.v1.0.openapi.json">package-manager.v1.0.openapi.json</a></td>
+      <td><a href="./rexroth-deviceadmin/license-manager/license-manager.v1.0.openapi.json">license-manager.v1.0.openapi.json</a></td>
     </tr>
     <tr>
       <td><a href="../../app/?urls.primaryName=Rest-API%20description%20to%20manage%20%28removable%29%20storage%20media%20v1.1">ctrlX CORE - Storage API</a></td>
