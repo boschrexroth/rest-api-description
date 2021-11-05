@@ -15,7 +15,7 @@ From the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification):
 | [ctrlX CORE](./ctrlx-automation/ctrlx-core/) | ctrlX CORE related rest api descriptions |
 | [ctrlX WORKS](./ctrlx-automation/ctrlx-works/) | ctrlX WORKS related rest api descriptions |
 
-:bulb: Only REST API descriptions in this repository are considered stable and can be used by applications. Other APIs and http calls (e.g. reverse engineered) that are not official documented in this repository can not be considered in a stable state and might break in the future. They should not be used.
+:bangbang: Only REST API descriptions in this repository are considered stable and can be used by applications. Other APIs and http calls (e.g. reverse engineered) that are not official documented in this repository can not be considered in a stable state and might break in the future. They should not be used.
 
 ## Important directions for use
 
