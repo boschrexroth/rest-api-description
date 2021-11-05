@@ -2,22 +2,20 @@
 
 This repository contains [OpenAPI](https://www.openapis.org/) descriptions for REST APIs of Bosch Rexroth Devices and Services.
 
-## Warning
-
-Only REST API description in this repository are considered stable and can be used by applications. Other apis and http calls (e.g. reverse engineered) that are not official documented in this repository are not considered stable and will break in the future. They should not be used.
-
 ## What is OpenAPI?
 
 From the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification):
 
 > The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interface descriptions have done for lower-level programming, the OpenAPI Specification removes guesswork in calling a service.
 
-## Areas
+## List of OpenAPI Descriptions
 
 | Area | Description |
 | ---- | ----------- |
 | [ctrlX CORE](./ctrlx-automation/ctrlx-core/) | ctrlX CORE related rest api descriptions |
 | [ctrlX WORKS](./ctrlx-automation/ctrlx-works/) | ctrlX WORKS related rest api descriptions |
+
+:bangbang: Only REST API descriptions in this repository are considered stable and can be used by applications. Other APIs and http calls (e.g. reverse engineered) that are not official documented in this repository can not be considered in a stable state and might break in the future. They should not be used.
 
 ## Important directions for use
 
