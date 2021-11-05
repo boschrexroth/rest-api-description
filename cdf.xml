@@ -9,7 +9,7 @@
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.certificatemanager" Version="2.1.1" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificate-manager/2.1.1"/>
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.compliance" Version="1.1.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/1.1.1"/>
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.identitymanager" Version="2.0.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identity-manager/2.0.0"/>
-    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.licensemanager" Version="1.0.1" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/1.0.1"/>
+    <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.licensemanager" Version="1.0.1" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/license-manager/1.0.1"/>
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.networkmanager" Version="1.3.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/network-manager/1.3.0"/>
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.packagemanager" Version="1.5.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/1.5.0"/>
     <DependsOn FromRepository="buildresults" Org="com.boschrexroth" Name="api.storage" Version="1.1.0" Destination="./private/api/ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/1.1.0"/>
