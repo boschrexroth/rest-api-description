@@ -61,7 +61,7 @@ let specs = [
   },
   {
     "name": "License Manager API v1.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/package-manager.v1.0.openapi.json"
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/license-manager/license-manager.v1.0.openapi.json"
   },
   {
     "name": "Rest-API description to manage (removable) storage media v1.1",
