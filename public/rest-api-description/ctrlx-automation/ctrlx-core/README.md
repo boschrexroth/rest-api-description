@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+  - toc
+---
 # Rest api descriptions for ctrlX CORE
 
 <table>
@@ -5,54 +10,42 @@
     <tr>
       <th>Rest API Description</th>
       <th>OpenAPI Specification</th>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Backup%20API%20v1.2">ctrlX CORE - Backup API</a></td>
-      <td><a href="./rexroth-deviceadmin/backup/backup.v1.2.openapi.json">backup.v1.2.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Certificate%20Service%20v2.1">ctrlX CORE - Certificates API</a></td>
-      <td><a href="./rexroth-deviceadmin/certificate-manager/certificate-manager.v2.1.openapi.json">certificate-manager.v2.1.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Firewall%20Service%20v1.2">ctrlX Firewall - Firewall API</a></td>
-      <td><a href="./rexroth-firewall/rexroth-firewall.v1.2.openapi.json">rexroth-firewall.v1.2.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Identity%20Manager%20Service%20v2.0">ctrlX CORE - Authorization and Authentication API</a></td>
-      <td><a href="./rexroth-deviceadmin/identity-manager/identity-manager.v2.0.openapi.json">identity-manager.v2.0.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Network%20Manager%20Service%20v1.3">ctrlX CORE - Connectivity API</a></td>
-      <td><a href="./rexroth-deviceadmin/network-manager/network-manager.v1.3.openapi.json">network-manager.v1.3.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Package%20Manager%20Service%20v1.5">ctrlX CORE - Apps Management API</a></td>
-      <td><a href="./rexroth-deviceadmin/package-manager/package-manager.v1.5.openapi.json">package-manager.v1.5.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20System%20Services%20v1.3">ctrlX CORE - System API</a></td>
-      <td><a href="./rexroth-deviceadmin/system/system.v1.3.openapi.json">system.v1.3.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20VPN%20Manager%20Service%20v1.0">ctrlX VPN - VPN API</a></td>
-      <td><a href="./rexroth-vpnmanager/rexroth-vpnmanager.v1.0.openapi.json">rexroth-vpnmanager.v1.0.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Compliance%20API%20Service%20v1.1">ctrlX CORE - Compliance API</a></td>
-      <td><a href="./rexroth-deviceadmin/compliance/compliance.v1.1.openapi.json">compliance.v1.1.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=License%20Manager%20API%20v1.0">ctrlX CORE - Licensing API</a></td>
-      <td><a href="./rexroth-deviceadmin/license-manager/license-manager.v1.0.openapi.json">license-manager.v1.0.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Rest-API%20description%20to%20manage%20%28removable%29%20storage%20media%20v1.1">ctrlX CORE - Storage API</a></td>
-      <td><a href="./rexroth-deviceadmin/storage/storage.v1.1.openapi.json">storage.v1.1.openapi.json</a></td>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=Solutions%20API%20v1.4">ctrlX CORE - Solutions API</a></td>
-      <td><a href="./rexroth-solutions/rexroth-solutions.v1.4.openapi.json">rexroth-solutions.v1.4.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20Network%20Manager%20Service%20v1.3.0">Bosch Rexroth Network Manager Service</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.3.0.openapi.json">networkmanager.v1.3.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=Bosch%20Rexroth%20System%20Services%20v1.3.0">Bosch Rexroth System Services</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.3.0.openapi.json">systeminfo.v1.3.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=Compliance%20API%20Service%20v1.1.0">Compliance API Service</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.0.openapi.json">compliance.v1.1.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Apps%20Management%20API%20v1.6.0">ctrlX CORE - Apps Management API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.6.0.openapi.json">packagemanager.v1.6.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Authorization%20and%20Authentication%20API%20v2.0.1">ctrlX CORE - Authorization and Authentication API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.0.1.openapi.json">identitymanager.v2.0.1.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Backup%20API%20v1.3.0">ctrlX CORE - Backup API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/backup/backup.v1.3.0.openapi.json">backup.v1.3.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Certificates%20API%20v2.1.2">ctrlX CORE - Certificates API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificatemanager/certificatemanager.v2.1.2.openapi.json">certificatemanager.v2.1.2.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Data%20Layer%20API%20v2.0.1">ctrlX CORE - Data Layer API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-automationcore/datalayer/datalayer.v2.0.1.openapi.json">datalayer.v2.0.1.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Licensing%20API%20v1.1.0">ctrlX CORE - Licensing API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/licensemanager/licensemanager.v1.1.0.openapi.json">licensemanager.v1.1.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20SSH%20API%20v1.0.3">ctrlX CORE - SSH API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.3.openapi.json">ssh.v1.0.3.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Solutions%20API%20v1.5.0">ctrlX CORE - Solutions API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.5.0.openapi.json">solutions.v1.5.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Storage%20API%20v1.2.0">ctrlX CORE - Storage API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.2.0.openapi.json">storage.v1.2.0.openapi.json</a></td>
     </tr>
   </tbody>
 </table>

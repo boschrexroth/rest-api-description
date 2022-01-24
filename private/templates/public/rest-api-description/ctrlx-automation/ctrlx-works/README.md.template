@@ -1,4 +1,9 @@
-# Rest api descriptions for ctrlX CORE
+---
+hide:
+  - navigation
+  - toc
+---
+# Rest api descriptions for ctrlX WORKS
 
 <table>
   <tbody>
@@ -7,11 +12,11 @@
       <th>OpenAPI Specification</th>
     </tr>
     {%- for api in apis  %}
-    {%- if api.area.startswith(relativePath) %}
+    {%- if api.area.startswith("ctrlx-automation/ctrlx-works") -%}
     {% set primaryName = api.title ~ " v" ~ api.version -%}
     <tr>
       <td><a href="../../app/?urls.primaryName={{ primaryName |urlencode }}">{{ api.title }}</a></td>
-      <td><a href="{{ api.url | replace(relativePath, ".") }}">{{ api.filename }}</a></td>
+      <td><a href="../../{{ api.url }}">{{ api.filename }}</a></td>
     </tr>
     {%- endif %}
     {%- endfor %}

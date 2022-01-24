@@ -1,1 +1,7 @@
-api
+/private/apps
+/private/api
+/public/site
+*.zip
+/docs
+merged.cdf.xml
+/build
