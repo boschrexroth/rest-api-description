@@ -5,6 +5,13 @@ hide:
 ---
 # Rest api descriptions for ctrlX WORKS
 
+The ctrlX WORKS engineering platform is designed as an open platform to encourage developers to develop third-party apps and services.
+As part of this goal we publish all released REST-APIs as OpenAPI description on github. You can use it to generate clients using
+third-party generators or browse our interactive API documentation.
+
+In the list below, you will find the latest released versions of our apis. The first column contains a link to the interactive API documentation.
+The link in the second column will open the actual openAPI as json.
+
 <table>
   <tbody>
     <tr>
