@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+  - toc
+---
 # Rest api descriptions for ctrlX WORKS
 
 <table>
@@ -5,10 +10,9 @@
     <tr>
       <th>Rest API Description</th>
       <th>OpenAPI Specification</th>
-    </tr>
-    <tr>
-      <td><a href="../../app/?urls.primaryName=ctrlX%20PLC%20Engineering%20API%20v2.0">ctrlX WORKS - PLC Engineering API</a></td>
-      <td><a href="./plc-engineering/plc-engineering.v2.0.openapi.json">plc-engineering.v2.0.openapi.json</a></td>
+    </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20WORKS%20-%20PLC%20Engineering%20API%20v2.1.1">ctrlX WORKS - PLC Engineering API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.1.1.openapi.json">plc-engineering.v2.1.1.openapi.json</a></td>
     </tr>
   </tbody>
 </table>

@@ -24,56 +24,56 @@
 
 let specs = [
   {
-    "name": "Backup API v1.2",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/backup/backup.v1.2.openapi.json"
+    "name": "Bosch Rexroth Network Manager Service v1.3.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.3.0.openapi.json"
   },
   {
-    "name": "Bosch Rexroth Certificate Service v2.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificate-manager/certificate-manager.v2.1.openapi.json"
+    "name": "Bosch Rexroth System Services v1.3.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.3.0.openapi.json"
   },
   {
-    "name": "Bosch Rexroth Firewall Service v1.2",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-firewall/rexroth-firewall.v1.2.openapi.json"
+    "name": "Compliance API Service v1.1.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.0.openapi.json"
   },
   {
-    "name": "Bosch Rexroth Identity Manager Service v2.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identity-manager/identity-manager.v2.0.openapi.json"
+    "name": "ctrlX CORE - Apps Management API v1.6.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.6.0.openapi.json"
   },
   {
-    "name": "Bosch Rexroth Network Manager Service v1.3",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/network-manager/network-manager.v1.3.openapi.json"
+    "name": "ctrlX CORE - Authorization and Authentication API v2.0.1",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.0.1.openapi.json"
   },
   {
-    "name": "Bosch Rexroth Package Manager Service v1.5",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/package-manager/package-manager.v1.5.openapi.json"
+    "name": "ctrlX CORE - Backup API v1.3.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/backup/backup.v1.3.0.openapi.json"
   },
   {
-    "name": "Bosch Rexroth System Services v1.3",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/system/system.v1.3.openapi.json"
+    "name": "ctrlX CORE - Certificates API v2.1.2",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificatemanager/certificatemanager.v2.1.2.openapi.json"
   },
   {
-    "name": "Bosch Rexroth VPN Manager Service v1.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-vpnmanager/rexroth-vpnmanager.v1.0.openapi.json"
+    "name": "ctrlX CORE - Data Layer API v2.0.1",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-automationcore/datalayer/datalayer.v2.0.1.openapi.json"
   },
   {
-    "name": "Compliance API Service v1.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.openapi.json"
+    "name": "ctrlX CORE - Licensing API v1.1.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/licensemanager/licensemanager.v1.1.0.openapi.json"
   },
   {
-    "name": "License Manager API v1.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/license-manager/license-manager.v1.0.openapi.json"
+    "name": "ctrlX CORE - SSH API v1.0.3",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.3.openapi.json"
   },
   {
-    "name": "Rest-API description to manage (removable) storage media v1.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.1.openapi.json"
+    "name": "ctrlX CORE - Solutions API v1.5.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.5.0.openapi.json"
   },
   {
-    "name": "Solutions API v1.4",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/rexroth-solutions.v1.4.openapi.json"
+    "name": "ctrlX CORE - Storage API v1.2.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.2.0.openapi.json"
   },
   {
-    "name": "ctrlX PLC Engineering API v2.0",
-    "url": "../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.0.openapi.json"
+    "name": "ctrlX WORKS - PLC Engineering API v2.1.1",
+    "url": "../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.1.1.openapi.json"
   },
 ]
 export default specs;
