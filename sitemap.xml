@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/index.html</loc>
+         <lastmod>2022-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/app/swagger-ui/index.html</loc>
+         <lastmod>2022-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/ctrlx-automation/ctrlx-core/index.html</loc>
+         <lastmod>2022-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/ctrlx-automation/ctrlx-works/index.html</loc>
+         <lastmod>2022-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
