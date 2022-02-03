@@ -282,8 +282,22 @@ body,
   color: var( --md--rexroth-bluegrey-40);
 }
 
+.md-sidebar--primary {
+  display: none;
+  visibility: hidden;
+}
+
+.md-sidebar--secondary {
+  display: none;
+  visibility: hidden;
+}
 
 @media (max-width:59.9375em){
+  .md-sidebar--primary {
+    display: block;
+    visibility: visible;
+  }
+
   .md-source, .md-nav__source {
     background-color: var( --md--rexroth-darkblue );
   }
@@ -296,7 +310,11 @@ body,
 
 /* Mobile */
 @media (max-width: 1220px ){
-  
+  .md-sidebar--primary {
+    display: block;
+    visibility: visible;
+  }
+
   .md-nav .md-nav__title {
     background-image: url(https://apps.boschrexroth.com/assets/ctrlx/ctrlX_Logo_500_125px_frameless.gif) !important;
     background-repeat: no-repeat;
