@@ -1,8 +1,3 @@
----
-hide:
-  - navigation
-  - toc
----
 # Rest api descriptions for ctrlX CORE
 
 The ctrlX CORE devices are designed as an open platform device to encourage developers to develop third-party apps and services.

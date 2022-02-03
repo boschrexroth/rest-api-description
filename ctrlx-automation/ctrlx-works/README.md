@@ -1,8 +1,3 @@
----
-hide:
-  - navigation
-  - toc
----
 # Rest api descriptions for ctrlX WORKS
 
 The ctrlX WORKS engineering platform is designed as an open platform to encourage developers to develop third-party apps and services.

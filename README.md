@@ -1,8 +1,3 @@
----
-hide:
-  - navigation
-  - toc
----
 # Bosch Rexroth's REST API Description
 
 This repository contains [OpenAPI](https://www.openapis.org/) descriptions for REST APIs of Bosch Rexroth Devices and Services.
