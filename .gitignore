@@ -1,6 +1,5 @@
 /private/apps
 /private/api
-/public/gh-pages
 *.zip
 /docs
 merged.cdf.xml
