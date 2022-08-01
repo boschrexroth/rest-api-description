@@ -40,6 +40,9 @@ The link in the second column will open the actual openAPI as json.
       <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20SSH%20API%20v1.0.3">ctrlX CORE - SSH API</a></td>
       <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.3.openapi.json">ssh.v1.0.3.openapi.json</a></td>
     </tr><tr>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Setup%20API%20v1.1.0">ctrlX CORE - Setup API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-setup/setup/setup.v1.1.0.openapi.json">setup.v1.1.0.openapi.json</a></td>
+    </tr><tr>
       <td><a href="../../app/?urls.primaryName=ctrlX%20CORE%20-%20Solutions%20API%20v1.6.0">ctrlX CORE - Solutions API</a></td>
       <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.6.0.openapi.json">solutions.v1.6.0.openapi.json</a></td>
     </tr><tr>

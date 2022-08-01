@@ -60,6 +60,10 @@ let specs = [
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.3.openapi.json"
   },
   {
+    "name": "ctrlX CORE - Setup API v1.1.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-setup/setup/setup.v1.1.0.openapi.json"
+  },
+  {
     "name": "ctrlX CORE - Solutions API v1.6.0",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.6.0.openapi.json"
   },
