@@ -84,8 +84,16 @@ let specs = [
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/themes/themes.v1.0.0.openapi.json"
   },
   {
+    "name": "ctrlX IO Engineering API v2.5.0",
+    "url": "../ctrlx-automation/ctrlx-works/io-engineering/io-engineering.v2.5.0.openapi.json"
+  },
+  {
     "name": "ctrlX PLC Engineering API v2.5.0",
     "url": "../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.5.0.openapi.json"
+  },
+  {
+    "name": "ctrlX WORKS - Devices API v1.2.0",
+    "url": "../ctrlx-automation/ctrlx-works/ctrlx-works/ctrlx-works.v1.2.0.openapi.json"
   },
 ]
 export default specs;
