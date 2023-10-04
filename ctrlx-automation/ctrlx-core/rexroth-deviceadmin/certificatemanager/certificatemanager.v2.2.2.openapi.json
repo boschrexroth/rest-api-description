@@ -1,0 +1,3877 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "support@boschrexroth.com",
+      "name" : "Bosch Rexroth AG",
+      "url" : "https://www.boschrexroth.com"
+    },
+    "description" : "This is an API for certificate and key management on ctrlX devices",
+    "title" : "ctrlX CORE - Certificates API",
+    "version" : "2.2.2"
+  },
+  "servers" : [ {
+    "url" : "/certificate-manager/api/v2"
+  }, {
+    "url" : "https://{host}/certificate-manager/api/v2",
+    "variables" : {
+      "host" : {
+        "default" : "[fe80::dcad:beff:fe00:0001]",
+        "description" : "Hostname or ip address of the ctrlX device"
+      }
+    }
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "description" : "Manage certificates",
+    "name" : "Certificates"
+  }, {
+    "description" : "Manage keys",
+    "name" : "Keys"
+  }, {
+    "description" : "Get information about all applications that provides a certificate store",
+    "name" : "Applications"
+  }, {
+    "description" : "Create new task for certificate or key copy/move actions",
+    "name" : "Tasks"
+  }, {
+    "description" : "Manage PKI (Public-Key-Infrastructure) configurations.",
+    "name" : "PKI Configurations"
+  } ],
+  "paths" : {
+    "/applications" : {
+      "get" : {
+        "operationId" : "getAllApplications",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Applications"
+                }
+              }
+            },
+            "description" : "Returns all available applications that have a own certificate and key storage."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Returns all available applications that have a own certificate and key storage.",
+        "tags" : [ "Applications" ]
+      }
+    },
+    "/applications/{applicationId}" : {
+      "get" : {
+        "operationId" : "getApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Application"
+                }
+              }
+            },
+            "description" : "Returns all information about an application."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get information of a specific application.",
+        "tags" : [ "Applications" ]
+      }
+    },
+    "/applications/{applicationId}/certificates" : {
+      "get" : {
+        "operationId" : "getCertificatesOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Certificates"
+                }
+              }
+            },
+            "description" : "Array of certificates"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get all certificates of an specific application.",
+        "tags" : [ "Certificates" ]
+      },
+      "post" : {
+        "operationId" : "addCertificateToApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UploadCert"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Certificates"
+                }
+              }
+            },
+            "description" : "Returns array of added certificates."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Add a new certificate to specific application.",
+        "tags" : [ "Certificates" ]
+      }
+    },
+    "/applications/{applicationId}/certificates/{certificateId}" : {
+      "delete" : {
+        "operationId" : "removeCertificateFromApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique certificate Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "certificateId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Deletes the specific certificate from application.",
+        "tags" : [ "Certificates" ]
+      },
+      "get" : {
+        "operationId" : "getCertificateOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique certificate Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "certificateId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Certificate"
+                }
+              }
+            },
+            "description" : "Returns the certificate with the specific id."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get one specific certificate.",
+        "tags" : [ "Certificates" ]
+      },
+      "put" : {
+        "operationId" : "setCertificateOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique certificate Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "certificateId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ModifyCertificate"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Certificate"
+                }
+              }
+            },
+            "description" : "The modified certificate"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Modify a certificate of an specific application.",
+        "tags" : [ "Certificates" ]
+      }
+    },
+    "/applications/{applicationId}/certificates/{certificateId}/file" : {
+      "get" : {
+        "operationId" : "getCertificateFile",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique certificate Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "certificateId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Choose the format of the downloaded file (default = pem)",
+          "explode" : true,
+          "in" : "query",
+          "name" : "format",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "pem", "der" ],
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "OK (specified public certificate as file)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns the certificate file",
+        "tags" : [ "Certificates" ]
+      }
+    },
+    "/applications/{applicationId}/keys" : {
+      "get" : {
+        "operationId" : "getKeysOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Keys"
+                }
+              }
+            },
+            "description" : "Returns an array of keys available on the system."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Returns all keys of an specific application.",
+        "tags" : [ "Keys" ]
+      },
+      "post" : {
+        "operationId" : "addKeyToApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UploadKey"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Key"
+                }
+              }
+            },
+            "description" : "Returns the newly created key."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Add a new key to the specific application",
+        "tags" : [ "Keys" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}" : {
+      "delete" : {
+        "operationId" : "deleteKeyFromApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Deletes a specific key of an application.",
+        "tags" : [ "Keys" ]
+      },
+      "get" : {
+        "operationId" : "getKeyOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Key"
+                }
+              }
+            },
+            "description" : "Returns one specific key."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Returns an specific key of an specific application.",
+        "tags" : [ "Keys" ]
+      },
+      "put" : {
+        "operationId" : "setKeyOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "examples" : {
+                "copyTaskRequest" : {
+                  "$ref" : "#/components/examples/ModifyKey"
+                },
+                "moveTaskRequest" : {
+                  "$ref" : "#/components/examples/DecryptKey"
+                }
+              },
+              "schema" : {
+                "$ref" : "#/components/schemas/OneOfKeyUpdate"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Key"
+                }
+              }
+            },
+            "description" : "The modified key"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Modify a key of an specific application.",
+        "tags" : [ "Keys" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/file" : {
+      "get" : {
+        "operationId" : "downloadPrivateKeyFile",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Choose the format of the downloaded file (default = pem)",
+          "explode" : true,
+          "in" : "query",
+          "name" : "format",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "pem", "der" ],
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "OK (specified public key as file)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns the private key file",
+        "tags" : [ "Keys" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/public-key" : {
+      "get" : {
+        "operationId" : "getPublicKeyOfApplication",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Key"
+                }
+              }
+            },
+            "description" : "Returns one specific key."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Returns information about the public key of a private key. If the choosen key is a public key it will also returned.",
+        "tags" : [ "Keys" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/public-key/file" : {
+      "get" : {
+        "operationId" : "getKeyPublicKeyFile",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Choose the format of the downloaded file (default = pem)",
+          "explode" : true,
+          "in" : "query",
+          "name" : "format",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "pem", "der" ],
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "OK (specified public key as file)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns the public key of and private key as a file. If the choosen key is a public key it will also returned.",
+        "tags" : [ "Keys" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/certificate-signing-requests" : {
+      "get" : {
+        "operationId" : "getCSRsOfKey",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CSRs"
+                }
+              }
+            },
+            "description" : "Returns an array of certificate signing requests based on a specific key."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns all signing requests based on the specific key",
+        "tags" : [ "Certificate Signing Requests" ]
+      },
+      "post" : {
+        "operationId" : "createCertificateSigningRequest",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DistinguishedName"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CSR"
+                }
+              }
+            },
+            "description" : "Certificate signing request created"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Create a certificate signing request with the given values and save this csr in the backend",
+        "tags" : [ "Certificate Signing Requests" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/certificate-signing-requests/{csrId}" : {
+      "delete" : {
+        "operationId" : "deleteCSR",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique csr Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "csrId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Delets an specific signing request",
+        "tags" : [ "Certificate Signing Requests" ]
+      },
+      "get" : {
+        "operationId" : "getCSR",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique csr Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "csrId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CSR"
+                }
+              }
+            },
+            "description" : "Returns a certificate signing requests based on a specific key."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns an specific signing request",
+        "tags" : [ "Certificate Signing Requests" ]
+      }
+    },
+    "/applications/{applicationId}/keys/{keyId}/certificate-signing-requests/{csrId}/file" : {
+      "get" : {
+        "operationId" : "getCSRFile",
+        "parameters" : [ {
+          "description" : "The unique application Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "applicationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique key Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "keyId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "The unique csr Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "csrId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Choose the format of the downloaded file (default = pem)",
+          "explode" : true,
+          "in" : "query",
+          "name" : "format",
+          "required" : false,
+          "schema" : {
+            "enum" : [ "pem", "der" ],
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "OK (specified csr as file)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "summary" : "Returns the file of an specific signing request",
+        "tags" : [ "Certificate Signing Requests" ]
+      }
+    },
+    "/pkis" : {
+      "get" : {
+        "operationId" : "getAllPKIConfigurations",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PKIConfigs"
+                }
+              }
+            },
+            "description" : "Array of PKI configs"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get all configured pki configurations",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "post" : {
+        "operationId" : "addPKIConfiguration",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PKIConfig"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PKIConfig"
+                }
+              }
+            },
+            "description" : "Config created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created configuration",
+                  "example" : "/certificate-manager/api/v2/pkis/123",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Add a new pki configuration.",
+        "tags" : [ "PKI Configurations" ]
+      }
+    },
+    "/pkis/{pkiId}" : {
+      "delete" : {
+        "operationId" : "deletePKIConfiguration",
+        "parameters" : [ {
+          "description" : "The unique pkiId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "pkiId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Deletes a pki configuration",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "get" : {
+        "operationId" : "getPkiConfig",
+        "parameters" : [ {
+          "description" : "The unique pkiId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "pkiId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PKIConfig"
+                }
+              }
+            },
+            "description" : "Returns an pki configuraiton the specific id."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get pki configuraiton",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "put" : {
+        "operationId" : "setPKIConfiguration",
+        "parameters" : [ {
+          "description" : "The unique pkiId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "pkiId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PKIConfig"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PKIConfig"
+                }
+              }
+            },
+            "description" : "The modified pki configuration"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Modify pki configuration",
+        "tags" : [ "PKI Configurations" ]
+      }
+    },
+    "/pkis/{pkiId}/certificate-requests" : {
+      "get" : {
+        "operationId" : "getCertificateRequests",
+        "parameters" : [ {
+          "description" : "The unique pkiId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "pkiId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CertificateRequests"
+                }
+              }
+            },
+            "description" : "Array of subscriptions"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get certificate requests",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "post" : {
+        "operationId" : "addCertificateRequest",
+        "parameters" : [ {
+          "description" : "The unique pkiId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "pkiId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CertificateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CertificateRequest"
+                }
+              }
+            },
+            "description" : "Config created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created configuration",
+                  "example" : "/certificate-manager/api/v2/pkis/123/certificate-requests/321",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Add a new certificate request.",
+        "tags" : [ "PKI Configurations" ]
+      }
+    },
+    "/subscriptions" : {
+      "get" : {
+        "operationId" : "getAllSubscriptions",
+        "parameters" : [ {
+          "description" : "Find subscription to specific certificate id",
+          "explode" : true,
+          "in" : "query",
+          "name" : "certificateId",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Subscriptions"
+                }
+              }
+            },
+            "description" : "Returns all subscriptions."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get all certificate renewal subscriptions",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "post" : {
+        "operationId" : "addSubscription",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Subscription"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Subscription"
+                }
+              }
+            },
+            "description" : "Config created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created configuration",
+                  "example" : "/certificate-manager/api/v2/subscriptions/321",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Add a new subscription.",
+        "tags" : [ "PKI Configurations" ]
+      }
+    },
+    "/subscriptions/{subscriptionId}" : {
+      "delete" : {
+        "operationId" : "deleteSubscription",
+        "parameters" : [ {
+          "description" : "The unique subscriptionId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "subscriptionId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Deletes a pki subscription",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "get" : {
+        "operationId" : "getSubscription",
+        "parameters" : [ {
+          "description" : "The unique subscriptionId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "subscriptionId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Subscription"
+                }
+              }
+            },
+            "description" : "Returns an subscription."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get pki subscription",
+        "tags" : [ "PKI Configurations" ]
+      },
+      "put" : {
+        "operationId" : "setSubscription",
+        "parameters" : [ {
+          "description" : "The unique subscriptionId Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "subscriptionId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Subscription"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Subscription"
+                }
+              }
+            },
+            "description" : "The modified pki subscription"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Modify pki subscription",
+        "tags" : [ "PKI Configurations" ]
+      }
+    },
+    "/tasks" : {
+      "get" : {
+        "description" : "Receive a list of tasks",
+        "operationId" : "getTasks",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Tasks"
+                }
+              }
+            },
+            "description" : "List of Tasks"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Receive a list of tasks",
+        "tags" : [ "Tasks" ]
+      },
+      "post" : {
+        "description" : "Create a new task",
+        "operationId" : "createTask",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "examples" : {
+                "copyTaskRequest" : {
+                  "$ref" : "#/components/examples/copyTaskRequest"
+                },
+                "moveTaskRequest" : {
+                  "$ref" : "#/components/examples/moveTaskRequest"
+                },
+                "genKeyTaskRequest" : {
+                  "$ref" : "#/components/examples/genKeyTaskRequest"
+                }
+              },
+              "schema" : {
+                "$ref" : "#/components/schemas/OneOfTasks"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "copyTaskResponse" : {
+                    "$ref" : "#/components/examples/copyTaskResponse"
+                  },
+                  "moveTaskResponse" : {
+                    "$ref" : "#/components/examples/moveTaskResponse"
+                  },
+                  "genKeyTaskResponse" : {
+                    "$ref" : "#/components/examples/genKeyTaskResponse"
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/OneOfTasks"
+                }
+              }
+            },
+            "description" : "Task created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created task",
+                  "example" : "/certificate-manager/api/v2/tasks/123",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Create a new task",
+        "tags" : [ "Tasks" ]
+      }
+    },
+    "/tasks/{taskId}" : {
+      "get" : {
+        "description" : "Receive information about a task",
+        "operationId" : "getTask",
+        "parameters" : [ {
+          "description" : "The unique task Id",
+          "explode" : false,
+          "in" : "path",
+          "name" : "taskId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "copyTaskResponse" : {
+                    "$ref" : "#/components/examples/copyTaskResponse"
+                  },
+                  "moveTaskResponse" : {
+                    "$ref" : "#/components/examples/moveTaskResponse"
+                  },
+                  "genKeyTaskResponse" : {
+                    "$ref" : "#/components/examples/genKeyTaskResponse"
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/OneOfTasks"
+                }
+              }
+            },
+            "description" : "Done - Task information"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Receive information about a task",
+        "tags" : [ "Tasks" ]
+      }
+    }
+  },
+  "components" : {
+    "examples" : {
+      "copyTaskRequest" : {
+        "value" : {
+          "action" : "copy",
+          "parameters" : {
+            "itemId" : "fe6a4075a1c326a04398e30ea7cf4c194e22e43071a764d543e69453c4db3234",
+            "itemType" : "certificate",
+            "srcApplicationId" : "permantent",
+            "dstApplicationId" : "vpnmanager",
+            "dstCategory" : "own"
+          }
+        }
+      },
+      "copyTaskResponse" : {
+        "value" : {
+          "id" : "123",
+          "state" : "done",
+          "progress" : 100,
+          "eta" : "2019-01-01T12:00:27.87+00:20",
+          "action" : "copy",
+          "parameters" : {
+            "itemId" : "fe6a4075a1c326a04398e30ea7cf4c194e22e43071a764d543e69453c4db3234",
+            "itemType" : "certificate",
+            "srcApplicationId" : "permantent",
+            "dstApplicationId" : "vpnmanager",
+            "dstCategory" : "own"
+          }
+        }
+      },
+      "moveTaskRequest" : {
+        "value" : {
+          "action" : "move",
+          "parameters" : {
+            "itemId" : "fe6a4075a1c326a04398e30ea7cf4c194e22e43071a764d543e69453c4db3234",
+            "itemType" : "certificate",
+            "srcApplicationId" : "opcua",
+            "dstApplicationId" : "opcua",
+            "dstCategory" : "rejected"
+          }
+        }
+      },
+      "moveTaskResponse" : {
+        "value" : {
+          "id" : "123",
+          "state" : "done",
+          "progress" : 100,
+          "eta" : "2019-01-01T12:00:27.87+00:20",
+          "action" : "move",
+          "parameters" : {
+            "itemId" : "fe6a4075a1c326a04398e30ea7cf4c194e22e43071a764d543e69453c4db3234",
+            "itemType" : "certificate",
+            "srcApplicationId" : "opcua",
+            "dstApplicationId" : "opcua",
+            "dstCategory" : "rejected"
+          }
+        }
+      },
+      "genKeyTaskRequest" : {
+        "value" : {
+          "action" : "keygen",
+          "parameters" : {
+            "dstApplicationId" : "vpnmanager",
+            "keyLength" : 4096,
+            "name" : "privateKey.pem",
+            "type" : "rsa"
+          }
+        }
+      },
+      "genKeyTaskResponse" : {
+        "value" : {
+          "id" : "123",
+          "state" : "running",
+          "progress" : 30,
+          "eta" : "2019-01-01T12:00:27.87+00:20",
+          "action" : "keygen",
+          "parameters" : {
+            "dstApplicationId" : "vpnmanager",
+            "keyLength" : 4096,
+            "name" : "privateKey.pem",
+            "type" : "rsa"
+          }
+        }
+      },
+      "ModifyKey" : {
+        "value" : {
+          "name" : "privateKey.pem"
+        }
+      },
+      "DecryptKey" : {
+        "value" : {
+          "name" : "privateKey.pem",
+          "password" : "secret"
+        }
+      }
+    },
+    "parameters" : {
+      "applicationId" : {
+        "description" : "The unique application Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "applicationId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "certificateId" : {
+        "description" : "The unique certificate Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "certificateId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "keyId" : {
+        "description" : "The unique key Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "keyId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "csrId" : {
+        "description" : "The unique csr Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "csrId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "taskId" : {
+        "description" : "The unique task Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "taskId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "pkiId" : {
+        "description" : "The unique pkiId Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "pkiId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "subscriptionId" : {
+        "description" : "The unique subscriptionId Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "subscriptionId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "certRequestId" : {
+        "description" : "The unique certRequestId Id",
+        "explode" : false,
+        "in" : "path",
+        "name" : "certRequestId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      }
+    },
+    "responses" : {
+      "Unauthorized" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Not authorized to access this resource"
+      },
+      "Forbidden" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Access forbidden for this resource"
+      },
+      "BadRequest" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The request is incomplete or malformed"
+      },
+      "InternalServerError" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Something unexpected happened on the server"
+      },
+      "NotFound" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The resource was not found"
+      }
+    },
+    "schemas" : {
+      "DistinguishedName" : {
+        "description" : "DistinguishedName represents an X.509 distinguished name",
+        "example" : {
+          "country" : "country",
+          "commonName" : "commonName",
+          "streetAddress" : "streetAddress",
+          "organization" : "organization",
+          "postalCode" : "postalCode",
+          "locality" : "locality",
+          "state" : "state",
+          "organizationalUnit" : "organizationalUnit"
+        },
+        "properties" : {
+          "country" : {
+            "description" : "Country",
+            "type" : "string"
+          },
+          "state" : {
+            "description" : "State or province",
+            "type" : "string"
+          },
+          "locality" : {
+            "description" : "City",
+            "type" : "string"
+          },
+          "organization" : {
+            "description" : "Organization or company name",
+            "type" : "string"
+          },
+          "organizationalUnit" : {
+            "description" : "Department or division name",
+            "type" : "string"
+          },
+          "commonName" : {
+            "description" : "Common name or fully qualified domain name",
+            "type" : "string"
+          },
+          "streetAddress" : {
+            "description" : "Street address",
+            "type" : "string"
+          },
+          "postalCode" : {
+            "description" : "Postal code",
+            "type" : "string"
+          }
+        },
+        "required" : [ "commonName", "country", "locality", "organization", "organizationalUnit", "postalCode", "state", "streetAddress" ],
+        "type" : "object"
+      },
+      "Certificate" : {
+        "example" : {
+          "serialnumber" : "1640c5d45d2ec4d94c7d7c6a",
+          "subject" : {
+            "country" : "country",
+            "commonName" : "commonName",
+            "streetAddress" : "streetAddress",
+            "organization" : "organization",
+            "postalCode" : "postalCode",
+            "locality" : "locality",
+            "state" : "state",
+            "organizationalUnit" : "organizationalUnit"
+          },
+          "publickey" : "publickey",
+          "hashalgorithm" : "sha256",
+          "version" : "V3",
+          "issuer" : {
+            "country" : "country",
+            "commonName" : "commonName",
+            "streetAddress" : "streetAddress",
+            "organization" : "organization",
+            "postalCode" : "postalCode",
+            "locality" : "locality",
+            "state" : "state",
+            "organizationalUnit" : "organizationalUnit"
+          },
+          "signaturealgorithm" : "sha256RSA",
+          "publickeyparameters" : "ECDH_P256",
+          "name" : "webserver.pem",
+          "isCA" : true,
+          "validfrom" : 0,
+          "id" : "id",
+          "validity" : "valid",
+          "category" : "ca",
+          "validto" : 1645346175
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Uniqe identifier of the certificate in the backend.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "category" : {
+            "enum" : [ "ca", "own", "trusted", "rejected" ],
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "Filename of the certificate",
+            "example" : "webserver.pem",
+            "type" : "string"
+          },
+          "version" : {
+            "example" : "V3",
+            "type" : "string"
+          },
+          "serialnumber" : {
+            "example" : "1640c5d45d2ec4d94c7d7c6a",
+            "type" : "string"
+          },
+          "signaturealgorithm" : {
+            "example" : "sha256RSA",
+            "type" : "string"
+          },
+          "hashalgorithm" : {
+            "example" : "sha256",
+            "type" : "string"
+          },
+          "issuer" : {
+            "$ref" : "#/components/schemas/DistinguishedName"
+          },
+          "validfrom" : {
+            "description" : "valid from (UNIX-Time)",
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "validto" : {
+            "description" : "valid to (UNIX-Time)",
+            "example" : 1645346175,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "subject" : {
+            "$ref" : "#/components/schemas/DistinguishedName"
+          },
+          "publickey" : {
+            "description" : "Base64 encoded content of the public key",
+            "format" : "base64",
+            "type" : "string"
+          },
+          "publickeyparameters" : {
+            "example" : "ECDH_P256",
+            "type" : "string"
+          },
+          "isCA" : {
+            "type" : "boolean"
+          },
+          "validity" : {
+            "enum" : [ "valid", "expired", "notyetvalid" ],
+            "type" : "string"
+          }
+        },
+        "required" : [ "category", "id", "isCA" ],
+        "type" : "object"
+      },
+      "ModifyCertificate" : {
+        "example" : {
+          "name" : "newCertificateName.pem"
+        },
+        "properties" : {
+          "name" : {
+            "description" : "New filename of the certificate (including file extension)",
+            "example" : "newCertificateName.pem",
+            "type" : "string"
+          }
+        },
+        "required" : [ "name" ],
+        "type" : "object"
+      },
+      "Certificates" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Certificate"
+        },
+        "type" : "array"
+      },
+      "Key" : {
+        "example" : {
+          "hsm" : true,
+          "length" : 4096,
+          "name" : "key.pem",
+          "id" : "id",
+          "state" : "generating",
+          "category" : "own",
+          "type" : "private",
+          "algorithm" : "RSA"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Uniqe identifier of the key in the backend.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "category" : {
+            "enum" : [ "own", "trusted", "rejected" ],
+            "type" : "string"
+          },
+          "type" : {
+            "enum" : [ "private", "public" ],
+            "type" : "string"
+          },
+          "algorithm" : {
+            "enum" : [ "RSA", "ED25519", "P-256", "P-384", "P-521" ],
+            "type" : "string"
+          },
+          "length" : {
+            "description" : "Key length",
+            "example" : 4096,
+            "type" : "integer"
+          },
+          "name" : {
+            "description" : "Filename of the key",
+            "example" : "key.pem",
+            "type" : "string"
+          },
+          "state" : {
+            "enum" : [ "generating", "available", "encrypted" ],
+            "type" : "string"
+          },
+          "hsm" : {
+            "description" : "Key is stored on on-device HSM, like TPM or similar",
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "category", "hsm", "id", "length", "name" ],
+        "type" : "object"
+      },
+      "ModifyKey" : {
+        "properties" : {
+          "name" : {
+            "description" : "New filename of the key (including file extension)",
+            "example" : "newKeyName.pem",
+            "type" : "string"
+          }
+        },
+        "required" : [ "name" ],
+        "type" : "object"
+      },
+      "DecryptKey" : {
+        "properties" : {
+          "name" : {
+            "description" : "Filename of the decrypted key (including file extension)",
+            "example" : "decryptedKey.pem",
+            "type" : "string"
+          },
+          "password" : {
+            "description" : "Password to decrypt a password protected private key.",
+            "type" : "string"
+          }
+        },
+        "required" : [ "name", "password" ],
+        "type" : "object"
+      },
+      "OneOfKeyUpdate" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/ModifyKey"
+        }, {
+          "$ref" : "#/components/schemas/DecryptKey"
+        } ]
+      },
+      "Keys" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Key"
+        },
+        "type" : "array"
+      },
+      "Application" : {
+        "example" : {
+          "name" : "OPCUA",
+          "description" : "description",
+          "id" : "id"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Uniqe identifier of the application in the backend.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "Name of the application.",
+            "example" : "OPCUA",
+            "type" : "string"
+          },
+          "description" : {
+            "description" : "Short description of the application.",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "Applications" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Application"
+        },
+        "type" : "array"
+      },
+      "Problem" : {
+        "description" : "This document defines a \"problem detail\" as a way  to carry machine-readable details of errors in a  HTTP response to avoid the need to define new error  response formats for HTTP APIs.\n",
+        "properties" : {
+          "type" : {
+            "default" : "about:blank",
+            "description" : "A URI reference [RFC3986] that identifies the problem type. \nThis specification encourages that, when dereferenced, \nit provide human-readable documentation for the problem type \n(e.g., using HTML [W3C.REC-html5-20141028]). When this member \nis not present, its value is assumed to be \"about:blank\".\n",
+            "example" : "https://example.com/probs/out-of-credit",
+            "format" : "uri",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\n",
+            "example" : "You do not have enough credit.",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code ([RFC7231], Section 6) generated by the \norigin server for this occurrence of the problem.\n",
+            "example" : 403,
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "detail" : {
+            "description" : "A human-readable explanation specific to this occurrence of the problem.\n",
+            "example" : "Your current balance is 30, but that costs 50.",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "A URI reference that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced.\n",
+            "example" : "/account/12345/msgs/abc",
+            "type" : "string"
+          },
+          "code" : {
+            "deprecated" : true,
+            "description" : "An error code issued by the system that caused the original problem.\nThis code can be used to track down the root cause of the error.\n",
+            "example" : "F360001",
+            "type" : "string"
+          },
+          "mainDiagnosisCode" : {
+            "description" : "The main diagnosis code is issued by the system that caused the problem.\nThis code can be used to track down the root cause and source of the error.\nIt can be used to search in the documentation for a solution.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "080F0100",
+            "type" : "string"
+          },
+          "detailedDiagnosisCode" : {
+            "description" : "The detailed diagnosis code issued by the system that caused the problem.\nThis code can be used to track down the detailed cause and source of the error.\nIt can be used to search in the documentation for a solution.\nThe detailed diagnosis code gives additional information about the cause of the error.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "00666001",
+            "type" : "string"
+          },
+          "dynamicDescription" : {
+            "description" : "A dynamic description gives detailed information about the occurrence of a problem.\nIt can change between different occurrences of the same error.\n",
+            "example" : "value = -4.5",
+            "type" : "string"
+          },
+          "severity" : {
+            "description" : " Severity of a problem as defined RFC5424 of the Syslog standard, see https://tools.ietf.org/html/rfc5424",
+            "enum" : [ "Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Informational", "Debug" ],
+            "example" : "Error",
+            "type" : "string"
+          },
+          "links" : {
+            "description" : "Collection of links to fix the problem. E.g. links to online user manual,\nto an online community (using tags) or a developer chat (e.g. Slack).\n",
+            "items" : {
+              "example" : "https://stackoverflow.com/questions/tagged/boschrexroth+controlx+f360001",
+              "format" : "uri",
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "moreInfo" : {
+            "additionalProperties" : true,
+            "example" : {
+              "trace" : "ExampleClass.cpp#452 Null pointer exception",
+              "class" : "ExampleClass"
+            },
+            "type" : "object"
+          }
+        },
+        "required" : [ "title", "type" ],
+        "type" : "object",
+        "x-version" : "1.0.0"
+      },
+      "TaskKeyGen" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Task"
+        }, {
+          "$ref" : "#/components/schemas/TaskKeyGen_allOf"
+        } ],
+        "description" : "Generate a new private key on the device"
+      },
+      "TaskMove" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Task"
+        }, {
+          "$ref" : "#/components/schemas/TaskMove_allOf"
+        } ],
+        "description" : "Move a key or certificate between apps and categories."
+      },
+      "TaskCopy" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Task"
+        }, {
+          "$ref" : "#/components/schemas/TaskCopy_allOf"
+        } ],
+        "description" : "Copy a key or certificate between apps and categories."
+      },
+      "OneOfTasks" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/TaskKeyGen"
+        }, {
+          "$ref" : "#/components/schemas/TaskMove"
+        }, {
+          "$ref" : "#/components/schemas/TaskCopy"
+        } ]
+      },
+      "Tasks" : {
+        "items" : {
+          "$ref" : "#/components/schemas/OneOfTasks"
+        },
+        "type" : "array"
+      },
+      "CSR" : {
+        "example" : {
+          "subject" : {
+            "country" : "country",
+            "commonName" : "commonName",
+            "streetAddress" : "streetAddress",
+            "organization" : "organization",
+            "postalCode" : "postalCode",
+            "locality" : "locality",
+            "state" : "state",
+            "organizationalUnit" : "organizationalUnit"
+          },
+          "name" : "name",
+          "id" : "id",
+          "creationDate" : 1645346175
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Uniqe identifier of the csr in the backend.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "Filename of the certificate signing request",
+            "type" : "string"
+          },
+          "creationDate" : {
+            "description" : "valid to (UNIX-Time)",
+            "example" : 1645346175,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "subject" : {
+            "$ref" : "#/components/schemas/DistinguishedName"
+          }
+        },
+        "required" : [ "creationDate", "id", "name", "subject" ],
+        "type" : "object"
+      },
+      "CSRs" : {
+        "items" : {
+          "$ref" : "#/components/schemas/CSR"
+        },
+        "type" : "array"
+      },
+      "PKIConfig" : {
+        "example" : {
+          "protocol" : "CMP",
+          "uriIr" : "192.168.1.1:8080/path/to/ir/endpoint",
+          "id" : "id",
+          "uriCr" : "192.168.1.1:8080/path/to/cr/endpoint",
+          "serverCertId" : "serverCertId"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Unique identifier of the cmp config.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "uriCr" : {
+            "description" : "Uri for renewing certificates",
+            "example" : "192.168.1.1:8080/path/to/cr/endpoint",
+            "type" : "string"
+          },
+          "uriIr" : {
+            "description" : "Uri for the inital creating a certificate - if not set uri_cr is used",
+            "example" : "192.168.1.1:8080/path/to/ir/endpoint",
+            "type" : "string"
+          },
+          "protocol" : {
+            "enum" : [ "CMP" ],
+            "type" : "string"
+          },
+          "serverCertId" : {
+            "description" : "Server certificate, stored in application 'Network Security', to authenticate the PKI server",
+            "type" : "string"
+          }
+        },
+        "required" : [ "protocol", "uriCr" ],
+        "type" : "object"
+      },
+      "PKIConfigs" : {
+        "items" : {
+          "$ref" : "#/components/schemas/PKIConfig"
+        },
+        "type" : "array"
+      },
+      "CertificateRequest" : {
+        "example" : {
+          "certificateId" : "certificateId",
+          "id" : "id",
+          "state" : "failed",
+          "applicationId" : "applicationId",
+          "privateKeyId" : "privateKeyId"
+        },
+        "properties" : {
+          "id" : {
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "applicationId" : {
+            "description" : "Id of the application that contains the key and certificate.",
+            "type" : "string"
+          },
+          "privateKeyId" : {
+            "description" : "Id of the private key that belongs to certificate that will monitored.",
+            "type" : "string"
+          },
+          "certificateId" : {
+            "description" : "Id of the certificate that will be monitored and renewed.",
+            "type" : "string"
+          },
+          "state" : {
+            "description" : "State of the request",
+            "enum" : [ "failed", "running", "done" ],
+            "readOnly" : true,
+            "type" : "string"
+          }
+        },
+        "required" : [ "applicationId", "certificateId", "privateKeyId" ],
+        "type" : "object"
+      },
+      "CertificateRequests" : {
+        "items" : {
+          "$ref" : "#/components/schemas/CertificateRequest"
+        },
+        "type" : "array"
+      },
+      "Subscription" : {
+        "description" : "A subscription monitors the validity of a certificate and renews it within a configurable time.",
+        "example" : {
+          "renewalPeriod" : 0,
+          "pkiId" : "pkiId",
+          "certificateId" : "certificateId",
+          "id" : "id",
+          "applicationId" : "applicationId",
+          "privateKeyId" : "privateKeyId",
+          "enabled" : true
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Unique identifier of the subscription.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "applicationId" : {
+            "description" : "Id of the application that contains the key and certificate.",
+            "type" : "string"
+          },
+          "privateKeyId" : {
+            "description" : "Id of the private key that belongs to certificate that will monitored.",
+            "type" : "string"
+          },
+          "certificateId" : {
+            "description" : "Id of the certificate that will be monitored and renewed.",
+            "type" : "string"
+          },
+          "renewalPeriod" : {
+            "description" : "Period in days when to start with a renewal of the certificate before experation.",
+            "type" : "integer"
+          },
+          "pkiId" : {
+            "description" : "Id of the pki the subscription belongs to",
+            "type" : "string"
+          },
+          "enabled" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "applicationId", "certificateId", "enabled", "pkiId", "privateKeyId", "renewalPeriod" ],
+        "type" : "object"
+      },
+      "Subscriptions" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Subscription"
+        },
+        "type" : "array"
+      },
+      "UploadKey" : {
+        "properties" : {
+          "file" : {
+            "format" : "binary",
+            "type" : "string"
+          },
+          "category" : {
+            "enum" : [ "own", "trusted", "rejected" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "UploadCert" : {
+        "properties" : {
+          "file" : {
+            "format" : "binary",
+            "type" : "string"
+          },
+          "category" : {
+            "enum" : [ "own", "ca", "rejected", "trusted" ],
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "CertificateSigningRequest" : {
+        "example" : {
+          "subject" : {
+            "country" : "country",
+            "commonName" : "commonName",
+            "streetAddress" : "streetAddress",
+            "organization" : "organization",
+            "postalCode" : "postalCode",
+            "locality" : "locality",
+            "state" : "state",
+            "organizationalUnit" : "organizationalUnit"
+          },
+          "name" : "name",
+          "id" : "id",
+          "creationDate" : 1645346175
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Uniqe identifier of the csr in the backend.",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "Filename of the certificate signing request",
+            "type" : "string"
+          },
+          "creationDate" : {
+            "description" : "valid to (UNIX-Time)",
+            "example" : 1645346175,
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "subject" : {
+            "$ref" : "#/components/schemas/DistinguishedName"
+          }
+        },
+        "required" : [ "creationDate", "id", "name", "subject" ],
+        "type" : "object"
+      },
+      "Task" : {
+        "discriminator" : {
+          "propertyName" : "action"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "The temporary id of a task",
+            "example" : "123",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "state" : {
+            "enum" : [ "pending", "failed", "done", "running" ],
+            "example" : "running",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "progress" : {
+            "description" : "Progress of the task",
+            "example" : 10,
+            "maximum" : 100,
+            "minimum" : 0,
+            "readOnly" : true,
+            "type" : "integer"
+          },
+          "eta" : {
+            "description" : "ETA in RFC 3339 format",
+            "example" : "2019-01-01T12:00:27.87+00:20",
+            "format" : "dateTime",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "action" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "TaskKeyGen_allOf_parameters" : {
+        "properties" : {
+          "dstApplicationId" : {
+            "example" : "webserver",
+            "type" : "string"
+          },
+          "keyLength" : {
+            "description" : "Define keylength for keys type RSA",
+            "example" : "4096",
+            "type" : "string"
+          },
+          "name" : {
+            "description" : "Filename of the key",
+            "example" : "rsa.pem",
+            "type" : "string"
+          },
+          "algorithm" : {
+            "enum" : [ "RSA", "ED25519", "P-256", "P-384", "P-521" ],
+            "example" : "RSA",
+            "type" : "string"
+          },
+          "hsm" : {
+            "description" : "Generate key on on-device HSM, like TPM or similar",
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "algorithm", "dstApplicationId", "hsm", "keyLength", "name" ]
+      },
+      "TaskKeyGen_allOf" : {
+        "properties" : {
+          "action" : {
+            "enum" : [ "keygen" ],
+            "type" : "string"
+          },
+          "parameters" : {
+            "$ref" : "#/components/schemas/TaskKeyGen_allOf_parameters"
+          }
+        }
+      },
+      "TaskMove_allOf_parameters" : {
+        "properties" : {
+          "itemId" : {
+            "example" : "fe6a4075a1c326a04398e30ea7cf4c194e22e43071a764d543e69453c4db3234",
+            "type" : "string"
+          },
+          "itemType" : {
+            "example" : "certificate",
+            "type" : "string"
+          },
+          "srcApplicationId" : {
+            "example" : "opcua",
+            "type" : "string"
+          },
+          "dstApplicationId" : {
+            "example" : "opcua",
+            "type" : "string"
+          },
+          "dstCategory" : {
+            "example" : "rejected",
+            "type" : "string"
+          }
+        }
+      },
+      "TaskMove_allOf" : {
+        "properties" : {
+          "action" : {
+            "enum" : [ "move" ],
+            "type" : "string"
+          },
+          "parameters" : {
+            "$ref" : "#/components/schemas/TaskMove_allOf_parameters"
+          }
+        }
+      },
+      "TaskCopy_allOf" : {
+        "properties" : {
+          "action" : {
+            "enum" : [ "copy" ],
+            "type" : "string"
+          },
+          "parameters" : {
+            "$ref" : "#/components/schemas/TaskMove_allOf_parameters"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "scheme" : "bearer",
+        "type" : "http"
+      },
+      "OAuth2AuthorizationCodeFlow" : {
+        "flows" : {
+          "authorizationCode" : {
+            "authorizationUrl" : "https://example.com/oauth/authorize",
+            "scopes" : {
+              "read" : "Grants read access",
+              "write" : "Grants write access",
+              "admin" : "Grants access to admin operations"
+            },
+            "tokenUrl" : "https://example.com/oauth/token"
+          }
+        },
+        "type" : "oauth2"
+      },
+      "OAuth2PasswordFlow" : {
+        "flows" : {
+          "password" : {
+            "scopes" : {
+              "dummy" : "Dummy scope (scopes not used)"
+            },
+            "tokenUrl" : "/identity-manager/api/v2/auth/token"
+          }
+        },
+        "type" : "oauth2"
+      }
+    }
+  }
+}

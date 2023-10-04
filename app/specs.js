@@ -24,60 +24,60 @@
 
 let specs = [
   {
-    "name": "ctrlX CORE - Apps Management API v1.10.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.10.0.openapi.json"
+    "name": "ctrlX CORE - Apps Management API v1.10.1",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.10.1.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Authorization and Authentication API v2.2.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.2.0.openapi.json"
+    "name": "ctrlX CORE - Authorization and Authentication API v2.3.1",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.3.1.openapi.json"
   },
   {
     "name": "ctrlX CORE - Backup API v1.3.0",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/backup/backup.v1.3.0.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Certificates API v2.2.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificatemanager/certificatemanager.v2.2.1.openapi.json"
+    "name": "ctrlX CORE - Certificates API v2.2.2",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/certificatemanager/certificatemanager.v2.2.2.openapi.json"
   },
   {
     "name": "ctrlX CORE - Compliance API v1.1.1",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.1.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Connectivity API v1.7.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.7.0.openapi.json"
+    "name": "ctrlX CORE - Connectivity API v1.8.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.8.0.openapi.json"
   },
   {
     "name": "ctrlX CORE - Data Layer API v2.1.0",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-automationcore/datalayer/datalayer.v2.1.0.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Licensing API v1.3.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/licensemanager/licensemanager.v1.3.1.openapi.json"
+    "name": "ctrlX CORE - Licensing API v1.4.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/licensemanager/licensemanager.v1.4.0.openapi.json"
   },
   {
     "name": "ctrlX CORE - Logbook API v2.0.0",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/logbook/logbook.v2.0.0.openapi.json"
   },
   {
-    "name": "ctrlX CORE - SSH API v1.0.3",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.3.openapi.json"
+    "name": "ctrlX CORE - SSH API v1.0.4",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/ssh/ssh.v1.0.4.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Setup API v1.3.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-setup/setup/setup.v1.3.0.openapi.json"
+    "name": "ctrlX CORE - Setup API v1.4.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-setup/setup/setup.v1.4.0.openapi.json"
   },
   {
-    "name": "ctrlX CORE - Solutions API v1.7.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.7.0.openapi.json"
+    "name": "ctrlX CORE - Solutions API v1.8.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.8.0.openapi.json"
   },
   {
     "name": "ctrlX CORE - Storage API v1.3.1",
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.3.1.openapi.json"
   },
   {
-    "name": "ctrlX CORE - System API v1.7.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.7.0.openapi.json"
+    "name": "ctrlX CORE - System API v1.8.2",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.8.2.openapi.json"
   },
   {
     "name": "ctrlX CORE - Themes API v1.0.0",
