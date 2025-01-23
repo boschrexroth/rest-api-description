@@ -8,6 +8,31 @@ From the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification):
 
 > The OpenAPI Specification (OAS) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic. When properly defined via OpenAPI, a consumer can understand and interact with the remote service with a minimal amount of implementation logic. Similar to what interface descriptions have done for lower-level programming, the OpenAPI Specification removes guesswork in calling a service.
 
+## OpenAPI Conformance and Code Generation
+
+The OpenAPI Specification (OAS) in this repository adheres to the official OpenAPI standards, ensuring a standardized and machine-readable description of our APIs. While we strive to maintain conformance with the OpenAPI Specification, it's important to note the following:
+
+- We guarantee that our API descriptions are OpenAPI compliant and can be parsed by OpenAPI-compatible tools.
+- However, we do __not guarantee__ that OpenAPI code generators will produce ready-to-compile code from these specifications.
+
+Code generation from OpenAPI specifications can be complex, especially for APIs with advanced features. Many generators struggle with concepts like oneOf, anyOf, multiple requests/responses, multipart data, and complex component structures. As a result, generated code may require manual adjustments or custom templates to function correctly in your specific environment.
+
+Given the vast array of programming languages, frameworks, and development environments available, it is not feasible for us to maintain or support generated code for every possible combination. Users of our OpenAPI specifications should be prepared to take ownership of any generated code and adapt it to their specific needs.
+
+### General Recommendations
+
+When working with OpenAPI code generators for client generation, consider the following advice:
+
+- Choose the right generator: Select a generator that supports your target language and framework. The OpenAPI Eco System offers a wide range of options for various programming languages and platforms.
+- Ensure that your generator is up-to-date.
+- Utilize additional properties: When generating clients, use additional properties to fine-tune the output. For example, you can specify file naming conventions or include interfaces in many of the code generators available.
+- Leverage community support: OpenAPI has an active community, so don't hesitate to seek help or contribute improvements.
+- Test generated code: Always test the generated code to ensure it works as expected. Consider generating and running unit tests if supported by your chosen generator. 
+- Be prepared for changes: When upgrading your OpenAPI Generator, it's important to expect and be prepared for changes in the generated code. Updates to the generator may involve changes to the templates used for code generation. This can result in differences in the generated code structure or style.
+
+In conclusion, OpenAPI generators are powerful tools that can significantly accelerate API integration and maintain consistency across multiple platforms. However, their effective use requires careful consideration of code quality, versioning, and customization needs. By balancing the benefits of automation with thoughtful implementation and rigorous testing, developers can harness the full potential of these tools while mitigating associated risks.
+
+
 ## List of OpenAPI Descriptions
 
 | Area | Description |
