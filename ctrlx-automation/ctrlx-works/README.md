@@ -19,8 +19,8 @@ The link in the second column will open the actual openAPI as json.
       <td><a href="../../app/?urls.primaryName=ctrlX%20WORKS%20-%20IO%20Engineering%20API%20v2.8.0">ctrlX WORKS - IO Engineering API</a></td>
       <td><a href="../../ctrlx-automation/ctrlx-works/io-engineering/io-engineering.v2.8.0.openapi.json">io-engineering.v2.8.0.openapi.json</a></td>
     </tr><tr>
-      <td><a href="../../app/?urls.primaryName=ctrlX%20WORKS%20-%20PLC%20Engineering%20API%20v2.8.0">ctrlX WORKS - PLC Engineering API</a></td>
-      <td><a href="../../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.8.0.openapi.json">plc-engineering.v2.8.0.openapi.json</a></td>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20WORKS%20-%20PLC%20Engineering%20API%20v2.9.0">ctrlX WORKS - PLC Engineering API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-works/plc-engineering/plc-engineering.v2.9.0.openapi.json">plc-engineering.v2.9.0.openapi.json</a></td>
     </tr>
   </tbody>
 </table>
