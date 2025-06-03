@@ -31,11 +31,11 @@ The link in the second column will open the actual openAPI as json.
       <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Compliance%20API%20v1.1.3">ctrlX OS - Compliance API</a></td>
       <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.3.openapi.json">compliance.v1.1.3.openapi.json</a></td>
     </tr><tr>
-      <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Connectivity%20API%20v1.12.1">ctrlX OS - Connectivity API</a></td>
-      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.12.1.openapi.json">networkmanager.v1.12.1.openapi.json</a></td>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Connectivity%20API%20v1.12.2">ctrlX OS - Connectivity API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.12.2.openapi.json">networkmanager.v1.12.2.openapi.json</a></td>
     </tr><tr>
-      <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Data%20Layer%20API%20v2.1.3">ctrlX OS - Data Layer API</a></td>
-      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-automationcore/datalayer/datalayer.v2.1.3.openapi.json">datalayer.v2.1.3.openapi.json</a></td>
+      <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Data%20Layer%20API%20v2.1.4">ctrlX OS - Data Layer API</a></td>
+      <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-automationcore/datalayer/datalayer.v2.1.4.openapi.json">datalayer.v2.1.4.openapi.json</a></td>
     </tr><tr>
       <td><a href="../../app/?urls.primaryName=ctrlX%20OS%20-%20Device%20Registration%20API%20v1.0.0">ctrlX OS - Device Registration API</a></td>
       <td><a href="../../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/deviceregistration/deviceregistration.v1.0.0.openapi.json">deviceregistration.v1.0.0.openapi.json</a></td>
