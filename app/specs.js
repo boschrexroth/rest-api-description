@@ -24,16 +24,16 @@
 
 let specs = [
   {
-    "name": "ctrlX Firewall - Firewall API v1.2.3",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-firewall/firewall/firewall.v1.2.3.openapi.json"
+    "name": "ctrlX Firewall - Firewall API v2.0.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-firewall/firewall/firewall.v2.0.0.openapi.json"
   },
   {
-    "name": "ctrlX OS - Apps Management API v1.14.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.14.1.openapi.json"
+    "name": "ctrlX OS - Apps Management API v1.14.2",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/packagemanager/packagemanager.v1.14.2.openapi.json"
   },
   {
-    "name": "ctrlX OS - Authorization and Authentication API v2.7.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.7.0.openapi.json"
+    "name": "ctrlX OS - Authorization and Authentication API v2.8.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/identitymanager/identitymanager.v2.8.0.openapi.json"
   },
   {
     "name": "ctrlX OS - Backup API v1.3.1",
@@ -48,8 +48,8 @@ let specs = [
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/compliance/compliance.v1.1.3.openapi.json"
   },
   {
-    "name": "ctrlX OS - Connectivity API v1.12.2",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.12.2.openapi.json"
+    "name": "ctrlX OS - Connectivity API v1.13.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/networkmanager/networkmanager.v1.13.0.openapi.json"
   },
   {
     "name": "ctrlX OS - Data Layer API v2.1.4",
@@ -64,8 +64,8 @@ let specs = [
     "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/licensemanager/licensemanager.v1.8.0.openapi.json"
   },
   {
-    "name": "ctrlX OS - Logbook API v2.3.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/logbook/logbook.v2.3.0.openapi.json"
+    "name": "ctrlX OS - Logbook API v2.4.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/logbook/logbook.v2.4.0.openapi.json"
   },
   {
     "name": "ctrlX OS - SSH API v1.0.7",
@@ -80,12 +80,12 @@ let specs = [
     "url": "../ctrlx-automation/ctrlx-core/rexroth-solutions/solutions/solutions.v1.11.1.openapi.json"
   },
   {
-    "name": "ctrlX OS - Storage API v1.6.0",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.6.0.openapi.json"
+    "name": "ctrlX OS - Storage API v1.8.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/storage/storage.v1.8.0.openapi.json"
   },
   {
-    "name": "ctrlX OS - System API v1.13.1",
-    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.13.1.openapi.json"
+    "name": "ctrlX OS - System API v1.14.0",
+    "url": "../ctrlx-automation/ctrlx-core/rexroth-deviceadmin/systeminfo/systeminfo.v1.14.0.openapi.json"
   },
   {
     "name": "ctrlX OS - Themes API v1.0.3",

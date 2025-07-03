@@ -8,7 +8,7 @@
     },
     "description" : "Provides generic network configuration related functionalities of ctrlX OS.",
     "title" : "ctrlX OS - Connectivity API",
-    "version" : "1.12.1"
+    "version" : "1.13.0"
   },
   "servers" : [ {
     "description" : "Use this, if this page and the api are on the same server",
@@ -77,6 +77,9 @@
   }, {
     "description" : "Groups all Vlan configurations",
     "name" : "Vlans"
+  }, {
+    "description" : "Groups all the tcpdump requests",
+    "name" : "Tcpdump"
   } ],
   "paths" : {
     "/interfaces" : {
@@ -936,7 +939,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/InterfaceConfiguration"
+                  "$ref" : "#/components/schemas/OneOfInterfaceConfiguration"
                 }
               }
             },
@@ -1003,8 +1006,16 @@
         "requestBody" : {
           "content" : {
             "application/json" : {
+              "examples" : {
+                "ethernet" : {
+                  "$ref" : "#/components/examples/interfaceConfigurationRequest"
+                },
+                "can" : {
+                  "$ref" : "#/components/examples/canConfigurationRequest"
+                }
+              },
               "schema" : {
-                "$ref" : "#/components/schemas/InterfaceConfiguration"
+                "$ref" : "#/components/schemas/OneOfInterfaceConfiguration"
               }
             }
           }
@@ -3286,7 +3297,7 @@
           "name" : "serviceName",
           "required" : true,
           "schema" : {
-            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler" ],
+            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler", "snmp" ],
             "type" : "string"
           },
           "style" : "simple"
@@ -3363,7 +3374,7 @@
           "name" : "serviceName",
           "required" : true,
           "schema" : {
-            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler" ],
+            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler", "snmp" ],
             "type" : "string"
           },
           "style" : "simple"
@@ -3454,7 +3465,7 @@
           "name" : "serviceName",
           "required" : true,
           "schema" : {
-            "enum" : [ "gratuitous-arp" ],
+            "enum" : [ "gratuitous-arp", "snmp" ],
             "type" : "string"
           },
           "style" : "simple"
@@ -3466,6 +3477,9 @@
                 "examples" : {
                   "gratuitous-arp" : {
                     "$ref" : "#/components/examples/gratuitous-arp-configuration"
+                  },
+                  "snmp" : {
+                    "$ref" : "#/components/examples/snmp-configuration"
                   }
                 },
                 "schema" : {
@@ -3519,7 +3533,7 @@
           "name" : "serviceName",
           "required" : true,
           "schema" : {
-            "enum" : [ "gratuitous-arp" ],
+            "enum" : [ "gratuitous-arp", "snmp" ],
             "type" : "string"
           },
           "style" : "simple"
@@ -3815,6 +3829,426 @@
         },
         "summary" : "Get a specific task",
         "tags" : [ "Tasks" ]
+      }
+    },
+    "/tcpdump/dumps" : {
+      "get" : {
+        "description" : "Retrieve a list of all tcpdump dumps",
+        "operationId" : "getAllDumps",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TcpdumpDump"
+                }
+              }
+            },
+            "description" : "A list of tcpdump dumps"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get a list of all tcpdump dumps",
+        "tags" : [ "Tcpdump" ]
+      },
+      "post" : {
+        "description" : "Create a new tcpdump dump",
+        "operationId" : "createDump",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TcpdumpCreateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "tcpdump successfully created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created tcpdump",
+                  "example" : "/network-manager/api/v1/tcpdump/dumps/3b15e428-e97d-4eb7-9f36-4dd19c4565f2",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          },
+          "507" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Insufficient storage for this resource"
+          }
+        },
+        "summary" : "Create a new tcpdump dump",
+        "tags" : [ "Tcpdump" ]
+      }
+    },
+    "/tcpdump/dumps/{dump-id}" : {
+      "delete" : {
+        "description" : "Delete a tcpdump dump by its ID",
+        "operationId" : "deleteDump",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "dump-id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Successfully deleted tcpdump dump"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Delete a tcpdump dump",
+        "tags" : [ "Tcpdump" ]
+      },
+      "get" : {
+        "description" : "Retrieve a tcpdump dump by its ID",
+        "operationId" : "getDumpByID",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "dump-id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TcpdumpDumpItem"
+                }
+              }
+            },
+            "description" : "A tcpdump dump"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get a tcpdump dump by ID",
+        "tags" : [ "Tcpdump" ]
+      },
+      "put" : {
+        "description" : "Stop a tcpdump dump by its ID",
+        "operationId" : "stopDump",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "dump-id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TcpdumpUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TcpdumpDumpItem"
+                }
+              }
+            },
+            "description" : "Successfully stopped tcpdump dump"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Stop a tcpdump dump",
+        "tags" : [ "Tcpdump" ]
+      }
+    },
+    "/tcpdump/dumps/{dump-id}/archive" : {
+      "get" : {
+        "description" : "Retrieve a tcpdump archive by its ID",
+        "operationId" : "getDumpArchiveByID",
+        "parameters" : [ {
+          "explode" : false,
+          "in" : "path",
+          "name" : "dump-id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/zip" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "A tcpdump archive file"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get a tcpdump archive by ID",
+        "tags" : [ "Tcpdump" ]
       }
     },
     "/bandwidth-policies" : {
@@ -4158,6 +4592,116 @@
         "tags" : [ "IP configuration" ]
       }
     },
+    "/tcpdump/settings" : {
+      "get" : {
+        "description" : "Retrieve the tcpdump configuration settings",
+        "operationId" : "getTcpdumpConfiguration",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TcpdumpConfiguration"
+                }
+              }
+            },
+            "description" : "Tcpdump configuration settings retrieved successfully"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get tcpdump configuration settings",
+        "tags" : [ "Tcpdump" ]
+      },
+      "put" : {
+        "description" : "Update the tcpdump configuration settings",
+        "operationId" : "putTcpdumpConfiguration",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TcpdumpConfiguration"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Tcpdump configuration settings updated successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Update tcpdump configuration settings",
+        "tags" : [ "Tcpdump" ]
+      }
+    },
     "/firewall/tables" : {
       "get" : {
         "description" : "List all firewall tables of a specific framework, e.g. nftables",
@@ -4322,6 +4866,11 @@
           "count" : 3
         }
       },
+      "snmp-configuration" : {
+        "value" : {
+          "interfaces" : [ "XF10", "XF11" ]
+        }
+      },
       "interfaceRequest" : {
         "value" : {
           "name" : "bridge0",
@@ -4342,6 +4891,34 @@
           "protocol" : "hsrv1",
           "interface1" : "XF10",
           "interface2" : "XF51"
+        }
+      },
+      "interfaceConfigurationRequest" : {
+        "value" : {
+          "kind" : "ethernet",
+          "dhcp4" : true,
+          "dhcp6" : true,
+          "ipv4Address" : [ "192.168.1.1/24" ],
+          "managed" : true,
+          "dhcpOverrides" : {
+            "ipv4" : {
+              "useDns" : true,
+              "useMtu" : true,
+              "routeMetric" : 100
+            },
+            "ipv6" : {
+              "useDns" : true,
+              "useMtu" : true,
+              "routeMetric\"" : 100
+            }
+          },
+          "mtu" : 1500
+        }
+      },
+      "canConfigurationRequest" : {
+        "value" : {
+          "kind" : "can",
+          "bitrate" : 500000
         }
       }
     },
@@ -4364,7 +4941,7 @@
         "name" : "serviceName",
         "required" : true,
         "schema" : {
-          "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler" ],
+          "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resovler", "snmp" ],
           "type" : "string"
         },
         "style" : "simple"
@@ -4376,7 +4953,7 @@
         "name" : "serviceName",
         "required" : true,
         "schema" : {
-          "enum" : [ "gratuitous-arp" ],
+          "enum" : [ "gratuitous-arp", "snmp" ],
           "type" : "string"
         },
         "style" : "simple"
@@ -4558,6 +5135,16 @@
           }
         },
         "description" : "Payment required for this resource"
+      },
+      "InsufficientStorage" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Insufficient storage for this resource"
       }
     },
     "schemas" : {
@@ -4647,7 +5234,36 @@
         },
         "type" : "object"
       },
+      "OneOfInterfaceConfiguration" : {
+        "discriminator" : {
+          "mapping" : {
+            "ethernet" : "#/components/schemas/InterfaceConfiguration",
+            "bridge" : "#/components/schemas/InterfaceConfiguration",
+            "wifi" : "#/components/schemas/InterfaceConfiguration",
+            "vlan" : "#/components/schemas/InterfaceConfiguration",
+            "dan" : "#/components/schemas/InterfaceConfiguration",
+            "can" : "#/components/schemas/CanConfiguration"
+          },
+          "propertyName" : "kind"
+        },
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/InterfaceConfiguration"
+        }, {
+          "$ref" : "#/components/schemas/CanConfiguration"
+        } ]
+      },
       "OneOfInterface" : {
+        "discriminator" : {
+          "mapping" : {
+            "ethernet" : "#/components/schemas/Interface",
+            "bridge" : "#/components/schemas/Interface",
+            "wifi" : "#/components/schemas/Interface",
+            "vlan" : "#/components/schemas/VlanInterface",
+            "dan" : "#/components/schemas/DANInterface",
+            "can" : "#/components/schemas/Interface"
+          },
+          "propertyName" : "kind"
+        },
         "oneOf" : [ {
           "$ref" : "#/components/schemas/Interface"
         }, {
@@ -4724,47 +5340,21 @@
       },
       "Kinds" : {
         "description" : "Enum to differentiate between numerous network interfaces.",
-        "enum" : [ "ethernet", "wifi", "bridge", "vlan", "dan" ],
+        "enum" : [ "ethernet", "wifi", "bridge", "vlan", "dan", "can" ],
         "example" : "ethernet",
         "type" : "string"
       },
       "ArpProtocolHardwareId" : {
         "description" : "Arp protocol hardware identifier of interface. Only ethernet devices are editable",
-        "enum" : [ "ethernet", "none" ],
+        "enum" : [ "ethernet", "can", "none" ],
         "type" : "string"
       },
       "InterfaceConfiguration" : {
         "description" : "Presents the configuration of an interface",
-        "example" : {
-          "dhcp4" : true,
-          "dhcp6" : true,
-          "ipv6Address" : [ "fec0::dedc:abcd/64" ],
-          "managed" : false,
-          "linkLocalIpv4" : true,
-          "ipv4Address" : [ "192.168.1.1/16" ],
-          "dhcpOptions" : {
-            "dhcpIdentifier" : "mac"
-          },
-          "disabled" : false,
-          "gateway6" : "fec0::dedc:1",
-          "dhcpOverrides" : {
-            "ipv4" : {
-              "routeMetric" : 100,
-              "useDns" : true,
-              "useNtp" : true,
-              "useMtu" : true
-            },
-            "ipv6" : {
-              "routeMetric" : 100,
-              "useDns" : true,
-              "useNtp" : true,
-              "useMtu" : true
-            }
-          },
-          "gateway4" : "192.168.1.254",
-          "mtu" : 1500
-        },
         "properties" : {
+          "kind" : {
+            "$ref" : "#/components/schemas/Kinds"
+          },
           "disabled" : {
             "deprecated" : true,
             "description" : "Boolean that describes if the interface should be disabled",
@@ -4830,10 +5420,21 @@
         },
         "type" : "object"
       },
-      "DhcpOptions" : {
-        "example" : {
-          "dhcpIdentifier" : "mac"
+      "CanConfiguration" : {
+        "description" : "Presents the configuration of a can interface",
+        "properties" : {
+          "kind" : {
+            "$ref" : "#/components/schemas/Kinds"
+          },
+          "bitrate" : {
+            "description" : "Bitrate of the can interface in bit/s",
+            "example" : 500000,
+            "type" : "integer"
+          }
         },
+        "type" : "object"
+      },
+      "DhcpOptions" : {
         "properties" : {
           "dhcpIdentifier" : {
             "$ref" : "#/components/schemas/DhcpIdentifiers"
@@ -4842,12 +5443,6 @@
         "type" : "object"
       },
       "DhcpOverrides" : {
-        "example" : {
-          "routeMetric" : 100,
-          "useDns" : true,
-          "useNtp" : true,
-          "useMtu" : true
-        },
         "properties" : {
           "useDns" : {
             "default" : true,
@@ -5031,7 +5626,117 @@
         },
         "required" : [ "action", "url" ]
       },
+      "TcpdumpDump" : {
+        "description" : "Array of tcpdump dumps",
+        "items" : {
+          "$ref" : "#/components/schemas/TcpdumpDumpItem"
+        },
+        "type" : "array"
+      },
+      "TcpdumpDumpItem" : {
+        "example" : {
+          "duration" : 30,
+          "createdAt" : "2000-01-23T04:56:07.000+00:00",
+          "path" : "/media/sda1/2025-03-05_11-16-49_tcpdump_123",
+          "networkInterface" : "any",
+          "id" : "7ff25984-a6cb-4eb2-b4ad-284e631b090e",
+          "device" : "sda1",
+          "statusMessage" : "statusMessage",
+          "status" : "running",
+          "remainingTime" : 0
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Unique identifier for the dump",
+            "example" : "7ff25984-a6cb-4eb2-b4ad-284e631b090e",
+            "type" : "string"
+          },
+          "createdAt" : {
+            "description" : "Creation time of the dump",
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          },
+          "path" : {
+            "description" : "The path to the dump file",
+            "example" : "/media/sda1/2025-03-05_11-16-49_tcpdump_123",
+            "type" : "string"
+          },
+          "networkInterface" : {
+            "description" : "Network interface used for the dump",
+            "example" : "any",
+            "type" : "string"
+          },
+          "device" : {
+            "description" : "Device used for the dump",
+            "example" : "sda1",
+            "type" : "string"
+          },
+          "duration" : {
+            "description" : "Duration of the dump in seconds",
+            "example" : 30,
+            "type" : "integer"
+          },
+          "statusMessage" : {
+            "description" : "Error message if any",
+            "type" : "string"
+          },
+          "remainingTime" : {
+            "description" : "Remaining time of the dump in seconds",
+            "example" : 0,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "TcpdumpUpdateRequest" : {
+        "example" : {
+          "status" : "running"
+        },
+        "properties" : {
+          "status" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        },
+        "required" : [ "status" ],
+        "type" : "object"
+      },
+      "TcpdumpCreateRequest" : {
+        "example" : {
+          "duration" : 30,
+          "networkInterface" : "any",
+          "device" : "sda1"
+        },
+        "properties" : {
+          "networkInterface" : {
+            "description" : "Network interface to capture packets",
+            "example" : "any",
+            "type" : "string"
+          },
+          "device" : {
+            "description" : "Device used for the dump",
+            "example" : "sda1",
+            "type" : "string"
+          },
+          "duration" : {
+            "description" : "Duration of the dump in seconds",
+            "example" : 30,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
       "OneOfTask" : {
+        "discriminator" : {
+          "mapping" : {
+            "ping" : "#/components/schemas/TaskPing",
+            "arp" : "#/components/schemas/TaskArp",
+            "checkHttp" : "#/components/schemas/TaskCheckHttp"
+          },
+          "propertyName" : "action"
+        },
         "oneOf" : [ {
           "$ref" : "#/components/schemas/TaskPing"
         }, {
@@ -5217,6 +5922,16 @@
         "type" : "object"
       },
       "OneOfConfigurations" : {
+        "discriminator" : {
+          "mapping" : {
+            "eappeap" : "#/EAPPEAPConfig",
+            "eapttls" : "#/EAPTTLSConfig",
+            "eaptls" : "#/EAPTLSConfig",
+            "psk" : "#/PSKConfig",
+            "open" : "#/OpenWifiConfig"
+          },
+          "propertyName" : "configType"
+        },
         "oneOf" : [ {
           "$ref" : "#/components/schemas/EAPPEAPConfig"
         }, {
@@ -5383,6 +6098,19 @@
         },
         "type" : "array"
       },
+      "ServiceSnmpConfiguration" : {
+        "properties" : {
+          "interfaces" : {
+            "description" : "List of interfaces to be monitored",
+            "example" : [ "XF10", "XF11" ],
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          }
+        },
+        "type" : "object"
+      },
       "ServiceGratuitousArpConfiguration" : {
         "properties" : {
           "interval" : {
@@ -5413,6 +6141,8 @@
       "OneOfServiceConfiguration" : {
         "oneOf" : [ {
           "$ref" : "#/components/schemas/ServiceGratuitousArpConfiguration"
+        }, {
+          "$ref" : "#/components/schemas/ServiceSnmpConfiguration"
         } ]
       },
       "Service" : {
@@ -5423,7 +6153,7 @@
         "properties" : {
           "name" : {
             "description" : "The name of the service",
-            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resolver" ],
+            "enum" : [ "gratuitous-arp", "mdns", "llmnr", "upnp", "mdns-resolver", "snmp" ],
             "example" : "mdns",
             "type" : "string"
           },
@@ -5712,6 +6442,21 @@
         },
         "type" : "object"
       },
+      "TcpdumpConfiguration" : {
+        "description" : "Configuration settings for tcpdump",
+        "example" : {
+          "maxFileSize" : 30
+        },
+        "properties" : {
+          "maxFileSize" : {
+            "default" : 30,
+            "description" : "Maximum file size for the tcpdump (in MB)",
+            "example" : 30,
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
       "FirewallTablesText" : {
         "description" : "All firewall tables of a specific framework as plain/text.",
         "type" : "string"
@@ -5846,6 +6591,12 @@
         },
         "readOnly" : true,
         "type" : "object"
+      },
+      "Status" : {
+        "description" : "The status of the TCP dump",
+        "enum" : [ "running", "stopped", "completed" ],
+        "example" : "running",
+        "type" : "string"
       },
       "AuthMethodConfigurationTypes" : {
         "description" : "Enum to authentication methods configuration types",
@@ -6103,20 +6854,6 @@
         }
       },
       "InterfaceConfiguration_dhcpOverrides" : {
-        "example" : {
-          "ipv4" : {
-            "routeMetric" : 100,
-            "useDns" : true,
-            "useNtp" : true,
-            "useMtu" : true
-          },
-          "ipv6" : {
-            "routeMetric" : 100,
-            "useDns" : true,
-            "useNtp" : true,
-            "useMtu" : true
-          }
-        },
         "properties" : {
           "ipv4" : {
             "$ref" : "#/components/schemas/DhcpOverrides"

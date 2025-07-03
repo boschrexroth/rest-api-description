@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generator: Adobe Illustrator 27.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg overflow="visible" version="1.2" viewBox="0 0 28 28" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<defs>
+		
+		<linearGradient id="linearGradient224" x1=".01" x2="26.72" y1="13.365" y2="13.365" gradientUnits="userSpaceOnUse"><stop stop-color="#00c8f7" offset="0"/><stop stop-color="#002b49" offset="1"/></linearGradient>
+	<filter id="filter15" x="-.017971" y="-.041131" width="1.0509" height="1.1337" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(0,0,0)" flood-opacity=".25098" in="SourceGraphic" result="flood"/><feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="0.200000"/><feOffset dx="0.400000" dy="0.600000" in="blur" result="offset"/><feComposite in="flood" in2="offset" operator="in" result="comp1"/><feComposite in="SourceGraphic" in2="comp1" result="comp2"/></filter><filter id="filter17" x="-.017971" y="-.029268" width="1.0509" height="1.0951" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(0,0,0)" flood-opacity=".25098" in="SourceGraphic" result="flood"/><feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="0.200000"/><feOffset dx="0.400000" dy="0.600000" in="blur" result="offset"/><feComposite in="flood" in2="offset" operator="in" result="comp1"/><feComposite in="SourceGraphic" in2="comp1" result="comp2"/></filter></defs>
+
+
+
+	<g id="TEXT" filter="url(#filter223)">
+		<g fill="url(#linearGradient224)">
+
+
+			
+
+				<path d="m26.72 15.05-26.71 1.36v-14.13c0-1.25 1.02-2.27 2.27-2.27h22.17c1.25 0 2.27 1.02 2.27 2.27z" fill="url(#linearGradient224)" filter="url(#filter17)"/>
+				<path d="m26.72 24.45c0 1.25-1.02 2.27-2.27 2.27h-22.17c-1.25 0-2.27-1.02-2.27-2.27v-8.04l26.71-1.36z" fill="#fff" filter="url(#filter15)"/>
+			
+		</g>
+
+		<g fill="#002B49">
+			<path d="m5.27 22.45c-0.24 0.51-0.62 0.71-1.19 0.71-0.83 0-1.35-0.52-1.35-1.35 0-0.84 0.54-1.41 1.35-1.41 0.54 0 0.91 0.23 1.16 0.7l-0.78 0.31c-0.09-0.25-0.17-0.32-0.35-0.32-0.28 0-0.43 0.23-0.43 0.67 0 0.46 0.15 0.69 0.44 0.69 0.19 0 0.31-0.1 0.4-0.33l0.75 0.33z"/>
+			<path d="m5.88 20.47v-0.46l0.93-0.33v0.79h0.5v0.7h-0.5v0.96c0 0.19 0.06 0.26 0.18 0.26 0.07 0 0.13-0.02 0.23-0.08l0.2 0.63c-0.19 0.14-0.41 0.21-0.67 0.21-0.56 0-0.87-0.33-0.87-0.92v-1.06h-0.34v-0.7h0.34z"/>
+			<path d="m8.79 20.47v0.45c0.17-0.35 0.37-0.51 0.66-0.51 0.15 0 0.25 0.03 0.36 0.11l-0.2 0.85c-0.12-0.07-0.2-0.1-0.33-0.1-0.3 0-0.5 0.22-0.5 0.56v1.26h-0.91v-2.63h0.92z"/>
+			<path d="m11.09 22.01c0 0.35 0.05 0.4 0.24 0.4 0.06 0 0.13-0.01 0.25-0.07v0.74c-0.18 0.07-0.43 0.08-0.58 0.08-0.35 0-0.59-0.11-0.72-0.32-0.09-0.15-0.12-0.32-0.12-0.72v-2.79h0.93v2.68z"/>
+			<path d="m11.96 19.51h1.18l0.56 1.02 0.56-1.02h1.05l-1.06 1.7 1.23 1.89h-1.18l-0.68-1.19-0.69 1.19h-1.06l1.22-1.85-1.13-1.74z"/>
+			<path d="m20.61 21.31c0 1.11-0.72 1.85-1.78 1.85s-1.78-0.75-1.78-1.85c0-0.58 0.2-1.08 0.57-1.42 0.33-0.3 0.72-0.44 1.24-0.44 1.03 0 1.75 0.76 1.75 1.86zm-2.54 0c0 0.69 0.26 1.06 0.75 1.06s0.76-0.37 0.76-1.05c0-0.7-0.26-1.06-0.77-1.06-0.48-0.01-0.74 0.36-0.74 1.05z"/>
+			<path d="m23.06 20.53c-0.16-0.25-0.35-0.31-0.66-0.31-0.29 0-0.45 0.1-0.45 0.28s0.13 0.26 0.51 0.33c0.55 0.11 0.79 0.18 1 0.31 0.3 0.19 0.44 0.45 0.44 0.85 0 0.76-0.51 1.18-1.45 1.18-0.77 0-1.28-0.2-1.58-0.73l0.83-0.4c0.14 0.29 0.36 0.37 0.72 0.37 0.33 0 0.53-0.12 0.53-0.31 0-0.18-0.14-0.27-0.51-0.34-0.52-0.1-0.72-0.16-0.93-0.28-0.33-0.18-0.48-0.46-0.48-0.88 0-0.71 0.51-1.14 1.36-1.14 0.66 0 1.15 0.2 1.44 0.68l-0.77 0.39z"/>
+		</g>
+		<g fill="#fff">
+			<path d="M18.63,13.77H7.45v-3.49h11.18V13.77z M7.91,13.32h10.27v-2.58H7.91V13.32z"/>
+			<path d="m18.63 5.82h-3.14v-3.3h3.14v3.3zm-2.68-0.46h2.23v-2.39h-2.23v2.39z"/>
+			<path d="m14.94 5.82h-3.14v-3.3h3.14v3.3zm-2.68-0.46h2.23v-2.39h-2.23v2.39z"/>
+			<path d="M18.63,9.79H7.45V2.52h3.83l0.02,3.78h7.34V9.79z M7.91,9.33h10.27V6.75h-7.34l-0.02-3.78H7.91V9.33z"/>
+		</g>
+	</g>
+</svg>
