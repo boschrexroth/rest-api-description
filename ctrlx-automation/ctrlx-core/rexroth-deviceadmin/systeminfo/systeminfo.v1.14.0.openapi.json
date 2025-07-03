@@ -8,7 +8,7 @@
     },
     "description" : "Provides system related information and functionalities of ctrlX OS.",
     "title" : "ctrlX OS - System API",
-    "version" : "1.10.0"
+    "version" : "1.14.0"
   },
   "servers" : [ {
     "description" : "Use this, if this page and the api are on the same server",
@@ -33,20 +33,29 @@
     "Bearer" : [ ]
   } ],
   "tags" : [ {
-    "description" : "Groups all operations on System",
-    "name" : "System"
-  }, {
     "description" : "Groups all operations on date and time settings",
     "name" : "Date and Time"
   }, {
-    "description" : "Groups all operations on TypePlate",
-    "name" : "TypePlate"
+    "description" : "Get information about available language packages on ctrlX OS",
+    "name" : "Languages"
+  }, {
+    "description" : "Groups all information about system statistics",
+    "name" : "Measures"
   }, {
     "description" : "Groups all operations on Sensors",
     "name" : "Sensors"
   }, {
-    "description" : "Groups all information about system statistics",
-    "name" : "Measures"
+    "description" : "Groups all operations on serial vault",
+    "name" : "SerialVault"
+  }, {
+    "description" : "Groups all operations on System",
+    "name" : "System"
+  }, {
+    "description" : "Groups all operations on tasks",
+    "name" : "Tasks"
+  }, {
+    "description" : "Groups all operations on TypePlate",
+    "name" : "TypePlate"
   } ],
   "paths" : {
     "/hostname" : {
@@ -170,6 +179,7 @@
     },
     "/sensors/{id}" : {
       "get" : {
+        "description" : "Get sensor information by id",
         "operationId" : "getSensorData",
         "parameters" : [ {
           "explode" : false,
@@ -472,6 +482,8 @@
                     "summary" : "ctrlX CORE type plate",
                     "value" : {
                       "typePlateType" : "ctrlXCORE",
+                      "ctrlXDeviceId" : "urn:ctrlx:device:<partner>:<partnerserial>",
+                      "biosVersion" : "CTL6E904.118",
                       "storeBrandId" : "boschrexroth",
                       "storeModelId" : "rexroth-arch01",
                       "storeSerialId" : "7260xxx05726",
@@ -489,13 +501,15 @@
                       "materialIndex" : "000",
                       "materialNumber" : "R123xxxxxxxxx",
                       "typeCode" : "000",
-                      "biosVersion" : "000"
+                      "hardwareRevision" : "cx_x7p_a"
                     }
                   },
                   "generic" : {
                     "summary" : "generic linux typeplate",
                     "value" : {
                       "typePlateType" : "generic",
+                      "ctrlXDeviceId" : "urn:ctrlx:device:<partner>:<partnerserial>",
+                      "biosVersion" : "CTL6E904.118",
                       "storeBrandId" : "boschrexroth",
                       "storeModelId" : "rexroth-arch01",
                       "storeSerialId" : "7260xxx05726",
@@ -503,7 +517,9 @@
                       "productName" : "ctrlX COREvirtual",
                       "version" : "1.8.0",
                       "serialNumber" : "BB41E3C8-A4B3-11A8-9D43-AB0000CC0000",
-                      "uuid" : "BB41E3C8-A4B3-11A8-9D43-AB0000CC0000"
+                      "uuid" : "BB41E3C8-A4B3-11A8-9D43-AB0000CC0000",
+                      "sku" : "SomeSKU",
+                      "family" : "ctrlX CORE"
                     }
                   }
                 },
@@ -851,6 +867,7 @@
         "tags" : [ "Tasks" ]
       },
       "post" : {
+        "description" : "Create a new task",
         "operationId" : "createTask",
         "requestBody" : {
           "content" : {
@@ -884,7 +901,18 @@
                 }
               }
             },
-            "description" : "Task created"
+            "description" : "Task created",
+            "headers" : {
+              "Location" : {
+                "explode" : false,
+                "schema" : {
+                  "description" : "Location of the created task",
+                  "example" : "/system/api/v1/tasks",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
           },
           "400" : {
             "content" : {
@@ -937,12 +965,12 @@
             "description" : "Something unexpected happened on the server"
           }
         },
-        "summary" : "Create a new task",
         "tags" : [ "Tasks" ]
       }
     },
     "/tasks/{taskId}" : {
       "delete" : {
+        "description" : "Remove and cancel the task",
         "operationId" : "deleteTask",
         "parameters" : [ {
           "description" : "task id",
@@ -1001,10 +1029,10 @@
             "description" : "The resource was not found"
           }
         },
-        "summary" : "Remove and cancel the task",
         "tags" : [ "Tasks" ]
       },
       "get" : {
+        "description" : "Receive information about a task",
         "operationId" : "getTask",
         "parameters" : [ {
           "description" : "task id",
@@ -1070,7 +1098,6 @@
             "description" : "Something unexpected happened on the server"
           }
         },
-        "summary" : "Receive information about a task",
         "tags" : [ "Tasks" ]
       }
     },
@@ -1198,6 +1225,56 @@
               }
             },
             "description" : "OK"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          }
+        },
+        "tags" : [ "System" ]
+      },
+      "put" : {
+        "description" : "Set the device characteristics. Only some values are writable.",
+        "operationId" : "setDeviceCharacteristics",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeviceCharacteristics"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Device characteristics updated successfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
           },
           "401" : {
             "content" : {
@@ -1375,6 +1452,16 @@
           "204" : {
             "description" : "Change accepted"
           },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
           "401" : {
             "content" : {
               "application/json" : {
@@ -1394,16 +1481,6 @@
               }
             },
             "description" : "Access forbidden for this resource"
-          },
-          "404" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "The request is incomplete or malformed"
           }
         },
         "tags" : [ "System" ]
@@ -1456,6 +1533,30 @@
           }
         },
         "tags" : [ "Measures" ]
+      }
+    },
+    "/languages" : {
+      "get" : {
+        "description" : "Get the list of available languages",
+        "operationId" : "getLanguages",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "example" : [ "en", "de", "fr", "it", "zh" ],
+                  "items" : {
+                    "type" : "string"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "List of available languages"
+          }
+        },
+        "summary" : "Get the list of available languages",
+        "tags" : [ "Languages" ]
       }
     }
   },
@@ -1587,7 +1688,9 @@
           "macAddress" : "DE-AD-BE-00-00-02",
           "osVersion" : "18",
           "virtualized" : true,
-          "operatingSystem" : "Unbuntu 18.0",
+          "macAddresses" : [ "macAddresses", "macAddresses" ],
+          "installationId" : "BB41E3C8-A4B3-11A8-9D43-AB0000CC0000",
+          "operatingSystem" : "Ubuntu 18.0",
           "architecture" : "x86-64",
           "uptime" : 125666
         },
@@ -1599,7 +1702,7 @@
           },
           "operatingSystem" : {
             "description" : "The operating system",
-            "example" : "Unbuntu 18.0",
+            "example" : "Ubuntu 18.0",
             "type" : "string"
           },
           "osVersion" : {
@@ -1617,6 +1720,13 @@
             "example" : "DE-AD-BE-00-00-02",
             "type" : "string"
           },
+          "macAddresses" : {
+            "description" : "The mac addresses",
+            "items" : {
+              "type" : "string"
+            },
+            "type" : "array"
+          },
           "virtualized" : {
             "description" : "Shows if the system runs in a virtualized environment",
             "example" : true,
@@ -1627,6 +1737,11 @@
             "example" : 125666,
             "format" : "int64",
             "type" : "integer"
+          },
+          "installationId" : {
+            "description" : "The installation Id of the device",
+            "example" : "BB41E3C8-A4B3-11A8-9D43-AB0000CC0000",
+            "type" : "string"
           }
         },
         "type" : "object"
@@ -1660,6 +1775,13 @@
         "type" : "object"
       },
       "OneOfTypePlate" : {
+        "discriminator" : {
+          "mapping" : {
+            "ctrlXCORE" : "#/components/schemas/ctrlXCORETypePlate",
+            "generic" : "#/components/schemas/GenericLinuxTypePlate"
+          },
+          "propertyName" : "typePlateType"
+        },
         "oneOf" : [ {
           "$ref" : "#/components/schemas/ctrlXCORETypePlate"
         }, {
@@ -1675,6 +1797,7 @@
             "type" : "string"
           },
           "serialNumber" : {
+            "example" : "04031962",
             "type" : "string"
           },
           "name" : {
@@ -1756,7 +1879,7 @@
       "DateAndTime" : {
         "description" : "Time and Date",
         "example" : {
-          "timezone" : "[\"Europe/Berlin\",\"America/Jamaica\",\"UTC\",\"EST\"]",
+          "timezone" : "Europe/Berlin",
           "timestamp" : "2020-12-31T19:20:21.456"
         },
         "properties" : {
@@ -1767,7 +1890,7 @@
           },
           "timezone" : {
             "description" : "The timezone or location of the device. The timestamp is the time in this given timezone. This can\nbe a location (e.g. 'Europe/Berlin') from the 'IANA timezone database', a timezone abbrevation (e.g. 'EST') or\n'UTC' in case no local timezone shall be configured.\nThe use of a location is preferred over a timezone abbrevation, because timezone abbrevations can be ambiguous.\n",
-            "example" : "[\"Europe/Berlin\",\"America/Jamaica\",\"UTC\",\"EST\"]",
+            "example" : "Europe/Berlin",
             "type" : "string"
           }
         },
@@ -1844,19 +1967,24 @@
         },
         "properties" : {
           "id" : {
-            "description" : "The temporary id of a task",
+            "description" : "A server generated ID used to identify the task. This ID is unique.",
             "example" : "123",
             "readOnly" : true,
             "type" : "string"
           },
           "state" : {
+            "description" : "The state of the task.",
             "enum" : [ "pending", "failed", "done", "running" ],
             "example" : "running",
             "readOnly" : true,
             "type" : "string"
           },
+          "action" : {
+            "description" : "The action name executed by this task. This has to be inherited and overwritten by the application.",
+            "type" : "string"
+          },
           "progress" : {
-            "description" : "Progress of the task",
+            "description" : "Optional progress of the task in percentage.",
             "example" : 10,
             "maximum" : 100,
             "minimum" : 0,
@@ -1864,16 +1992,25 @@
             "type" : "integer"
           },
           "eta" : {
-            "description" : "ETA in RFC 3339 format",
+            "description" : "Optional ETA in RFC 3339 format.",
             "example" : "2019-01-01T12:00:27.87+00:20",
             "format" : "dateTime",
             "readOnly" : true,
             "type" : "string"
           },
-          "action" : {
-            "type" : "string"
+          "parameters" : {
+            "additionalProperties" : true,
+            "description" : "Optional map of additional parameters required by the request. Should be defined when inherited by an application.",
+            "type" : "object"
+          },
+          "result" : {
+            "additionalProperties" : true,
+            "description" : "Optional map reflecting the result of the task. May be empty until task completition. Should be defined when inherited by an application.",
+            "readOnly" : true,
+            "type" : "object"
           }
         },
+        "required" : [ "action", "id", "state" ],
         "type" : "object"
       },
       "Tasks" : {
@@ -1926,6 +2063,15 @@
         }
       },
       "OneOfTask" : {
+        "discriminator" : {
+          "mapping" : {
+            "report" : "#/components/schemas/TaskReport",
+            "reboot" : "#/components/schemas/TaskReboot",
+            "shutdown" : "#/components/schemas/TaskShutdown",
+            "checkNtp" : "#/components/schemas/TaskCheckNtp"
+          },
+          "propertyName" : "action"
+        },
         "oneOf" : [ {
           "$ref" : "#/components/schemas/TaskReport"
         }, {
@@ -1947,7 +2093,7 @@
             "type" : "string"
           },
           "title" : {
-            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\n",
+            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\nIf the response is a diagnostics message, it contains \nthe text associated with the mainDiagnosisCode.\n",
             "example" : "You do not have enough credit.",
             "type" : "string"
           },
@@ -1958,7 +2104,7 @@
             "type" : "integer"
           },
           "detail" : {
-            "description" : "A human-readable explanation specific to this occurrence of the problem.\n",
+            "description" : "A human-readable explanation specific to this occurrence of the problem.\nIf the response is a diagnostics message, it contains the text associated with\nthe detailedDiagnosisCode.\n",
             "example" : "Your current balance is 30, but that costs 50.",
             "type" : "string"
           },
@@ -2005,11 +2151,19 @@
           },
           "moreInfo" : {
             "additionalProperties" : true,
+            "description" : "The moreInfo field allows you to add additional information that might be necessary to debug or trace down the cause of an error.\nIt might also contain information what is needed to resolve the problem.\nThere are loosely specified fields for specific problems that can be used in these situations, e.g.:\n- On a 403 Forbidden error: The moreInfo can contain a field \"requiredPermissions\" with the required permissions seperated by comma\n- On a 402 Payment required: The moreInfo can contain a field \"requiredLicenses\" with the required licenses seperated by comma\n",
             "example" : {
               "trace" : "ExampleClass.cpp#452 Null pointer exception",
               "class" : "ExampleClass"
             },
             "type" : "object"
+          },
+          "cause" : {
+            "description" : "Sometimes a problem might be caused by problems that occure in other components or are the root cause of a problem. In this\ncase the related problems can be added as a cause. Since it might be possible that multiple components have problems on a single\naction, cause is an array. E.g. Loading failed because several components where not able to load the configuration.\n",
+            "items" : {
+              "$ref" : "#/components/schemas/Problem"
+            },
+            "type" : "array"
           }
         },
         "required" : [ "title", "type" ],
@@ -2028,11 +2182,18 @@
               "fullDiskEncryption" : true
             },
             "virtualized" : true,
-            "imageUpdateCapable" : true
+            "imageUpdateCapable" : true,
+            "uefiCapsuleUpdate" : "available",
+            "cpusetCapable" : true,
+            "quotaCapable" : true
           },
           "memory" : {
             "total" : 2048000000,
             "swap" : 0
+          },
+          "watchdog" : {
+            "identity" : "ctrlx-watchdog",
+            "enabled" : true
           },
           "connectivity" : {
             "ethernet" : {
@@ -2056,7 +2217,8 @@
             "type" : "nvme",
             "writeSupport" : "sporadic",
             "size" : 4096000000,
-            "removable" : false
+            "removable" : false,
+            "role" : "system"
           }, {
             "type" : "sdhc",
             "size" : 32000000000,
@@ -2091,7 +2253,8 @@
               "type" : "nvme",
               "writeSupport" : "sporadic",
               "size" : 4096000000,
-              "removable" : false
+              "removable" : false,
+              "role" : "system"
             }, {
               "type" : "sdhc",
               "size" : 32000000000,
@@ -2107,6 +2270,9 @@
               "$ref" : "#/components/schemas/StorageItem"
             },
             "type" : "array"
+          },
+          "watchdog" : {
+            "$ref" : "#/components/schemas/Watchdog"
           }
         },
         "type" : "object"
@@ -2158,7 +2324,6 @@
             "type" : "object"
           }
         },
-        "required" : [ "realtime" ],
         "type" : "object"
       },
       "CoreSettings" : {
@@ -2180,6 +2345,7 @@
             "type" : "boolean"
           }
         },
+        "required" : [ "realtime" ],
         "type" : "object"
       },
       "MemoryMeasures" : {
@@ -2281,6 +2447,26 @@
         },
         "type" : "object"
       },
+      "Watchdog" : {
+        "description" : "Linux watchdog framework",
+        "example" : {
+          "identity" : "ctrlx-watchdog",
+          "enabled" : true
+        },
+        "properties" : {
+          "enabled" : {
+            "description" : "Watchdog is enabled or disabled",
+            "example" : true,
+            "type" : "boolean"
+          },
+          "identity" : {
+            "description" : "Watchdog driver",
+            "example" : "ctrlx-watchdog",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
       "TypePlate" : {
         "discriminator" : {
           "propertyName" : "typePlateType"
@@ -2318,6 +2504,38 @@
           "storeSerialId" : {
             "description" : "unique id for the device in the store",
             "example" : "7260xxx05726",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "RexrothHwEthernet" : {
+        "description" : "Ethernet interface of the device",
+        "properties" : {
+          "name" : {
+            "description" : "The name of the interface",
+            "example" : "eth0",
+            "type" : "string"
+          },
+          "macAddress" : {
+            "description" : "The mac address of the interface",
+            "example" : "00:11:22:33:44:55",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "NetX" : {
+        "description" : "NetX interface of the device",
+        "properties" : {
+          "name" : {
+            "description" : "The name of the interface",
+            "example" : "netx0",
+            "type" : "string"
+          },
+          "interfaces" : {
+            "description" : "The corresponing com20 network interfaces",
+            "example" : "XF60/XF61",
             "type" : "string"
           }
         },
@@ -2380,11 +2598,13 @@
             "description" : "Maximum frequenz in hz",
             "example" : 2400000000,
             "format" : "int64",
+            "readOnly" : true,
             "type" : "integer"
           },
           "architecture" : {
             "description" : "Cpu architecture",
             "example" : "amd64",
+            "readOnly" : true,
             "type" : "string"
           },
           "cores" : {
@@ -2405,6 +2625,7 @@
             "description" : "Total core count",
             "example" : 4,
             "format" : "int32",
+            "readOnly" : true,
             "type" : "integer"
           },
           "isolated" : {
@@ -2414,6 +2635,7 @@
               "format" : "int32",
               "type" : "integer"
             },
+            "readOnly" : true,
             "type" : "array"
           },
           "online" : {
@@ -2424,6 +2646,7 @@
               "format" : "int32",
               "type" : "integer"
             },
+            "readOnly" : true,
             "type" : "array"
           }
         },
@@ -2440,31 +2663,54 @@
             "fullDiskEncryption" : true
           },
           "virtualized" : true,
-          "imageUpdateCapable" : true
+          "imageUpdateCapable" : true,
+          "uefiCapsuleUpdate" : "available",
+          "cpusetCapable" : true,
+          "quotaCapable" : true
         },
         "properties" : {
           "virtualized" : {
             "description" : "System is virtualized",
             "example" : true,
+            "readOnly" : true,
             "type" : "boolean"
           },
           "hardwareVendor" : {
             "description" : "Hardware vendor of system",
             "example" : "Bosch Rexroth",
+            "readOnly" : true,
             "type" : "string"
           },
           "tpm" : {
             "description" : "Tpm type of system",
             "enum" : [ "discrete", "firmware", "swtpm", "none" ],
             "example" : "firmware",
+            "readOnly" : true,
             "type" : "string"
           },
           "security" : {
             "$ref" : "#/components/schemas/Security"
           },
           "imageUpdateCapable" : {
-            "description" : "The flag indicates if an online image update is possible using the functionality provided by the Device Admin App.\nTrue indicates the system, more specific the gadget, provides all necessary functions to process a image update.\nFalse indicates that the system does not satisfy all prerequisites to execute an online image update.\n",
+            "description" : "The flag indicates if an online image update is possible using the functionality provided by the Device Admin App.\nTrue indicates the system, more specific the gadget, provides all necessary functions to process an image update.\nFalse indicates that the system does not satisfy all prerequisites to execute an online image update.\n",
+            "readOnly" : true,
             "type" : "boolean"
+          },
+          "quotaCapable" : {
+            "description" : "The flag indicates if the system is capable of handling quotas.",
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "cpusetCapable" : {
+            "description" : "The flag indicates if the system is capable of handling cpuset.",
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "uefiCapsuleUpdate" : {
+            "description" : "The flag indicates if the system supports uploading firmware updates in UEFI capsule format.",
+            "enum" : [ "available", "unavailable" ],
+            "example" : "available",
+            "type" : "string"
           }
         },
         "type" : "object"
@@ -2480,16 +2726,19 @@
           "integrityDegraded" : {
             "description" : "System integrity is degraded (e. g. installation of unknown apps is allowed)",
             "example" : false,
+            "readOnly" : true,
             "type" : "boolean"
           },
           "secureBoot" : {
             "description" : "Secure boot is enabled",
             "example" : true,
+            "readOnly" : true,
             "type" : "boolean"
           },
           "fullDiskEncryption" : {
             "description" : "Indicates if relevant system partitions are encrypted",
             "example" : true,
+            "readOnly" : true,
             "type" : "boolean"
           }
         },
@@ -2506,12 +2755,14 @@
             "description" : "Total memory of system in bytes",
             "example" : 2048000000,
             "format" : "int64",
+            "readOnly" : true,
             "type" : "integer"
           },
           "swap" : {
             "description" : "size of swap partition in bytes",
             "example" : 0,
             "format" : "int64",
+            "readOnly" : true,
             "type" : "integer"
           }
         },
@@ -2528,6 +2779,7 @@
             "description" : "Real time capability of system",
             "enum" : [ "full", "low_latency", "none" ],
             "example" : "full",
+            "readOnly" : true,
             "type" : "string"
           },
           "modules" : {
@@ -2536,6 +2788,7 @@
             "items" : {
               "type" : "string"
             },
+            "readOnly" : true,
             "type" : "array"
           }
         },
@@ -2565,6 +2818,7 @@
             "description" : "Number of ethernet ports",
             "example" : 5,
             "format" : "int32",
+            "readOnly" : true,
             "type" : "integer"
           }
         },
@@ -2576,7 +2830,8 @@
           "type" : "nvme",
           "writeSupport" : "sporadic",
           "size" : 4096000000,
-          "removable" : false
+          "removable" : false,
+          "role" : "system"
         }, {
           "type" : "sdhc",
           "size" : 32000000000,
@@ -2598,6 +2853,12 @@
         "properties" : {
           "type" : {
             "description" : "Storage type",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "device" : {
+            "description" : "The device name of the storage device",
+            "readOnly" : true,
             "type" : "string"
           },
           "writeSupport" : {
@@ -2608,11 +2869,20 @@
           "size" : {
             "description" : "Size of storage in bytes",
             "format" : "int64",
+            "readOnly" : true,
             "type" : "integer"
           },
           "removable" : {
             "description" : "Storage is a removable media",
+            "readOnly" : true,
             "type" : "boolean"
+          },
+          "role" : {
+            "description" : "The role of the storage device, e. g. system disk",
+            "enum" : [ "system", "none" ],
+            "example" : "system",
+            "readOnly" : true,
+            "type" : "string"
           }
         },
         "type" : "object"
@@ -2681,6 +2951,20 @@
             "description" : "The hardware revision of the device",
             "example" : "cx_x7p_a",
             "type" : "string"
+          },
+          "ethernets" : {
+            "description" : "The builtin ethernet interfaces of the device",
+            "items" : {
+              "$ref" : "#/components/schemas/RexrothHwEthernet"
+            },
+            "type" : "array"
+          },
+          "netXs" : {
+            "description" : "The netX interfaces of the device",
+            "items" : {
+              "$ref" : "#/components/schemas/NetX"
+            },
+            "type" : "array"
           }
         },
         "required" : [ "typePlateType" ]
@@ -2764,6 +3048,14 @@
             "maximum" : 17,
             "minimum" : 5,
             "type" : "integer"
+          },
+          "persistenceInterval" : {
+            "default" : 360,
+            "description" : "Interval in minutes to persist the current time",
+            "format" : "int32",
+            "maximum" : 1440,
+            "minimum" : 1,
+            "type" : "integer"
           }
         }
       },
@@ -2834,6 +3126,11 @@
             "description" : "Password for encrypting system report.",
             "example" : "secret",
             "format" : "password",
+            "type" : "string"
+          },
+          "path" : {
+            "description" : "Path where to store the system report file on an external medium connected to the device (optional).",
+            "example" : "/media/sdb2/",
             "type" : "string"
           }
         }
