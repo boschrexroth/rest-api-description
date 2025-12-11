@@ -1,0 +1,1692 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "support@boschrexroth.com",
+      "name" : "Bosch Rexroth Support",
+      "url" : "https://www.boschrexroth.com"
+    },
+    "description" : "This is an API for remote agent on Automation X devices.",
+    "title" : "ctrlX Device Portal Agent - Device Portal Agent API",
+    "version" : "1.4.0"
+  },
+  "servers" : [ {
+    "url" : "/remote-agent/api/v1"
+  }, {
+    "url" : "{protocol}://{host}/remote-agent/api/v1",
+    "variables" : {
+      "host" : {
+        "default" : "localhost:443",
+        "description" : "Server host name"
+      },
+      "protocol" : {
+        "default" : "https",
+        "description" : "Protocol of the server",
+        "enum" : [ "http", "https" ]
+      }
+    }
+  } ],
+  "security" : [ {
+    "UsernamePassword" : [ ]
+  }, {
+    "Bearer" : [ ]
+  } ],
+  "tags" : [ {
+    "description" : "This path handles commands. Commands are device specific and can received from the Device Portal or can be added with this Rest API.",
+    "name" : "Commands"
+  }, {
+    "description" : "This path handles devices. Devices can be added or removed by this Rest API.",
+    "name" : "Devices"
+  }, {
+    "description" : "This path handles the claiming of the device.",
+    "name" : "Claiming"
+  }, {
+    "description" : "This path lists all client certificates on the device.",
+    "name" : "Certificates"
+  }, {
+    "description" : "This path shows the connection state of the device.",
+    "name" : "State"
+  } ],
+  "paths" : {
+    "/commands" : {
+      "get" : {
+        "operationId" : "getCommands",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Commands"
+                }
+              }
+            },
+            "description" : "Returns an array of commands received by the Device Portal."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          }
+        },
+        "summary" : "Get all received commands.",
+        "tags" : [ "Commands" ]
+      },
+      "post" : {
+        "operationId" : "addCommand",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Command"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created command."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Add a new command like received from the Device Portal.",
+        "tags" : [ "Commands" ]
+      }
+    },
+    "/commands/{commandId}" : {
+      "get" : {
+        "operationId" : "getCommand",
+        "parameters" : [ {
+          "description" : "The command Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "commandId",
+          "required" : true,
+          "schema" : {
+            "example" : "snap_vlc_v3.0.1-1-3-gd3dasf0",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Command"
+                }
+              }
+            },
+            "description" : "Returns the requested command."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          }
+        },
+        "summary" : "Get one specific received commands.",
+        "tags" : [ "Commands" ]
+      },
+      "put" : {
+        "operationId" : "updateCommand",
+        "parameters" : [ {
+          "description" : "The command Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "commandId",
+          "required" : true,
+          "schema" : {
+            "example" : "snap_vlc_v3.0.1-1-3-gd3dasf0",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Command"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Update command done."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Update the command state of on received command.",
+        "tags" : [ "Commands" ]
+      }
+    },
+    "/devices" : {
+      "get" : {
+        "operationId" : "getDevices",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Devices"
+                }
+              }
+            },
+            "description" : "Returns an array of devices received by the Device Portal."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          }
+        },
+        "summary" : "Get all devices.",
+        "tags" : [ "Devices" ]
+      },
+      "post" : {
+        "operationId" : "addDevice",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Device"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Create device handled successfully."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Add a new device.",
+        "tags" : [ "Devices" ]
+      }
+    },
+    "/devices/{deviceId}" : {
+      "delete" : {
+        "operationId" : "removeDevice",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Deleted successfully."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Remove an existing device.",
+        "tags" : [ "Devices" ]
+      },
+      "get" : {
+        "operationId" : "getDevice",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Device"
+                }
+              }
+            },
+            "description" : "Returns an array of commands received by the Device Portal."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          }
+        },
+        "summary" : "Get one specific device.",
+        "tags" : [ "Devices" ]
+      },
+      "put" : {
+        "operationId" : "updateDevice",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Device"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Update existing device done."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Update an existing device.",
+        "tags" : [ "Devices" ]
+      }
+    },
+    "/devices/{deviceId}/claimingattempt" : {
+      "get" : {
+        "operationId" : "getClaimingAttempt",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ClaimingAttempt"
+                }
+              }
+            },
+            "description" : "Returns the claiming attempt of the specific device."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          }
+        },
+        "summary" : "Get claiming attempt of specific device.",
+        "tags" : [ "Claiming" ]
+      },
+      "put" : {
+        "operationId" : "confirmClaimingAttempt",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Confirm claiming attempt."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Confirm a claiming attempt of a specific device.",
+        "tags" : [ "Claiming" ]
+      }
+    },
+    "/devices/{deviceId}/policies" : {
+      "get" : {
+        "operationId" : "getDevicePolicies",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Policies"
+                }
+              }
+            },
+            "description" : "Returns an array of policies for an specific device."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          }
+        },
+        "summary" : "Get all device specific command policies.",
+        "tags" : [ "Devices" ]
+      },
+      "put" : {
+        "operationId" : "setDevicePolicies",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "example" : [ {
+                "commandType" : "INSTALL_SOFTWARE",
+                "commandAction" : "ACCEPT"
+              } ],
+              "schema" : {
+                "$ref" : "#/components/schemas/Policies"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "The command policies for the specific device was updated."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Set the command policies for a specific device.",
+        "tags" : [ "Devices" ]
+      }
+    },
+    "/devices/{deviceId}/policies/{commandType}" : {
+      "get" : {
+        "operationId" : "getDevicePolicy",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "An supported command type.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "commandType",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/CommandType"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommandAction"
+                }
+              }
+            },
+            "description" : "Returns an array of commands received by the Device Portal."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          }
+        },
+        "summary" : "Get one specific device command policy.",
+        "tags" : [ "Devices" ]
+      },
+      "put" : {
+        "operationId" : "updatePolicy",
+        "parameters" : [ {
+          "description" : "The device Id.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "deviceId",
+          "required" : true,
+          "schema" : {
+            "example" : "0000-TODO-0000",
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "An supported command type.",
+          "explode" : false,
+          "in" : "path",
+          "name" : "commandType",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/CommandType"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CommandAction"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Update command acceppted."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Update an specific device command policy.",
+        "tags" : [ "Devices" ]
+      }
+    },
+    "/certificates" : {
+      "get" : {
+        "operationId" : "getAllClientCertificates",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Certificates"
+                }
+              }
+            },
+            "description" : "Returns an array of client certificates."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          }
+        },
+        "summary" : "Gets all available client certificates on the device.",
+        "tags" : [ "Certificates" ]
+      }
+    },
+    "/state" : {
+      "get" : {
+        "operationId" : "getConnectionState",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/State"
+                }
+              }
+            },
+            "description" : "Returns the connection state."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          }
+        },
+        "summary" : "Gets the connection state of the remote agent.",
+        "tags" : [ "State" ]
+      }
+    },
+    "/remoteaccess" : {
+      "get" : {
+        "operationId" : "getRemoteAccessConnectionState",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RemoteAccess"
+                }
+              }
+            },
+            "description" : "Returns the connection state."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          }
+        },
+        "summary" : "Gets the connection state of the remote access.",
+        "tags" : [ "RemoteAccess" ]
+      },
+      "put" : {
+        "operationId" : "updateRemoteAccessConnectionState",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RemoteAccess"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Update command done."
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed."
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource."
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource."
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server."
+          }
+        },
+        "summary" : "Update the connection state of the remote access.",
+        "tags" : [ "RemoteAccess" ]
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "commandType" : {
+        "description" : "An supported command type.",
+        "explode" : false,
+        "in" : "path",
+        "name" : "commandType",
+        "required" : true,
+        "schema" : {
+          "$ref" : "#/components/schemas/CommandType"
+        },
+        "style" : "simple"
+      },
+      "commandId" : {
+        "description" : "The command Id.",
+        "explode" : false,
+        "in" : "path",
+        "name" : "commandId",
+        "required" : true,
+        "schema" : {
+          "example" : "snap_vlc_v3.0.1-1-3-gd3dasf0",
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "deviceId" : {
+        "description" : "The device Id.",
+        "explode" : false,
+        "in" : "path",
+        "name" : "deviceId",
+        "required" : true,
+        "schema" : {
+          "example" : "0000-TODO-0000",
+          "type" : "string"
+        },
+        "style" : "simple"
+      }
+    },
+    "responses" : {
+      "Unauthorized" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Not authorized to access this resource."
+      },
+      "Forbidden" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Access forbidden for this resource."
+      },
+      "BadRequest" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The request is incomplete or malformed."
+      },
+      "InternalServerError" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Something unexpected happened on the server."
+      },
+      "NotFound" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The resource was not found."
+      }
+    },
+    "schemas" : {
+      "Policy" : {
+        "example" : {
+          "commandType" : "commandType",
+          "commandAction" : "ACCEPT"
+        },
+        "properties" : {
+          "commandType" : {
+            "$ref" : "#/components/schemas/CommandType"
+          },
+          "commandAction" : {
+            "$ref" : "#/components/schemas/CommandAction"
+          }
+        },
+        "required" : [ "commandAction", "commandType" ],
+        "type" : "object"
+      },
+      "Policies" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Policy"
+        },
+        "type" : "array"
+      },
+      "CommandAction" : {
+        "description" : "List of available actions that are applied on commands",
+        "enum" : [ "ACCEPT", "REJECT", "ASK_USER" ],
+        "example" : "ACCEPT",
+        "type" : "string"
+      },
+      "Device" : {
+        "example" : {
+          "deviceType" : "ctrlX CORE",
+          "ipaddress" : "192.168.1.1",
+          "isclaimed" : true,
+          "supportedCommands" : [ "INSTALL_SOFTWARE", "UNINSTALL_SOFTWARE" ],
+          "certificate" : "existing_certificate_file.pem",
+          "description" : "short description of the device",
+          "active" : true,
+          "url" : "https://cert.device.deviceportal.bosch.com",
+          "isMainDevice" : true,
+          "privatekey" : "existing_private_key_file.pem",
+          "name" : "My ctrlX",
+          "id" : "urn:bosch:deviceportal:id:rexroth.DEVICE.communicationid.placeholder",
+          "tunnel" : {
+            "active" : false,
+            "url" : "wss://cert.device.deviceportal.bosch.com/"
+          }
+        },
+        "properties" : {
+          "name" : {
+            "example" : "My ctrlX",
+            "type" : "string"
+          },
+          "description" : {
+            "example" : "short description of the device",
+            "type" : "string"
+          },
+          "id" : {
+            "example" : "urn:bosch:deviceportal:id:rexroth.DEVICE.communicationid.placeholder",
+            "type" : "string"
+          },
+          "ipaddress" : {
+            "example" : "192.168.1.1",
+            "type" : "string"
+          },
+          "active" : {
+            "example" : true,
+            "type" : "boolean"
+          },
+          "tunnel" : {
+            "$ref" : "#/components/schemas/Tunnel"
+          },
+          "isclaimed" : {
+            "example" : true,
+            "type" : "boolean"
+          },
+          "url" : {
+            "example" : "https://cert.device.deviceportal.bosch.com",
+            "type" : "string"
+          },
+          "deviceType" : {
+            "example" : "ctrlX CORE",
+            "type" : "string"
+          },
+          "certificate" : {
+            "example" : "existing_certificate_file.pem",
+            "type" : "string"
+          },
+          "privatekey" : {
+            "example" : "existing_private_key_file.pem",
+            "type" : "string"
+          },
+          "isMainDevice" : {
+            "example" : true,
+            "type" : "boolean"
+          },
+          "supportedCommands" : {
+            "example" : [ "INSTALL_SOFTWARE", "UNINSTALL_SOFTWARE" ],
+            "items" : {
+              "$ref" : "#/components/schemas/CommandType"
+            },
+            "readOnly" : true,
+            "type" : "array"
+          }
+        },
+        "required" : [ "certificate", "id", "name", "privatekey", "supportedCommands", "tunnel", "url" ],
+        "type" : "object"
+      },
+      "Devices" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Device"
+        },
+        "type" : "array"
+      },
+      "Command" : {
+        "example" : {
+          "commandType" : "INSTALL_SOFTWARE",
+          "softwareId" : "urn:snap:rexroth-automation?=version=0.2.0",
+          "currentSoftwareId" : "urn:snap:rexroth-automation?=version=0.2.0",
+          "newSoftwareId" : "urn:snap:rexroth-automation?=version=0.2.1",
+          "tunnelStateActive" : true,
+          "serviceModeActive" : true,
+          "id" : "EizHcFUrEemoEe7uCv8vCQ",
+          "state" : "SUCCESSFUL",
+          "source" : "source",
+          "deviceId" : "urn:bosch:deviceportal:id:rexroth.DEVICE.communicationid.placeholder",
+          "target" : "target",
+          "timestamp" : 1538058171
+        },
+        "properties" : {
+          "id" : {
+            "description" : "Unique identifier of the command in the backend.",
+            "example" : "EizHcFUrEemoEe7uCv8vCQ",
+            "type" : "string"
+          },
+          "deviceId" : {
+            "description" : "Uniqe identifier of the device in the backend.",
+            "example" : "urn:bosch:deviceportal:id:rexroth.DEVICE.communicationid.placeholder",
+            "type" : "string"
+          },
+          "commandType" : {
+            "$ref" : "#/components/schemas/CommandType"
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/CommandState"
+          },
+          "softwareId" : {
+            "example" : "urn:snap:rexroth-automation?=version=0.2.0",
+            "type" : "string"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "target" : {
+            "type" : "string"
+          },
+          "currentSoftwareId" : {
+            "example" : "urn:snap:rexroth-automation?=version=0.2.0",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "newSoftwareId" : {
+            "example" : "urn:snap:rexroth-automation?=version=0.2.1",
+            "type" : "string"
+          },
+          "tunnelStateActive" : {
+            "example" : true,
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "timestamp" : {
+            "description" : "Timestamp, when the command was received (UNIX-Time)",
+            "example" : 1538058171,
+            "readOnly" : true,
+            "type" : "integer"
+          },
+          "serviceModeActive" : {
+            "description" : "Enable the Service Mode or disable it to go back to Operation Mode",
+            "readOnly" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "commandType", "deviceId", "id", "softwareId", "source", "target" ],
+        "type" : "object"
+      },
+      "Commands" : {
+        "items" : {
+          "$ref" : "#/components/schemas/Command"
+        },
+        "type" : "array"
+      },
+      "CommandType" : {
+        "description" : "Available command types",
+        "enum" : [ "RESTART", "REFRESH_SOFTWARE_LIST", "UPDATE_SOFTWARE", "INSTALL_SOFTWARE", "UNINSTALL_SOFTWARE", "UPDATE_TUNNEL", "UPDATE_SERVICE_MODE" ],
+        "example" : "INSTALL_SOFTWARE",
+        "type" : "string"
+      },
+      "State" : {
+        "example" : {
+          "portal" : "CONNECTED",
+          "internet" : "CONNECTED"
+        },
+        "properties" : {
+          "internet" : {
+            "$ref" : "#/components/schemas/ConnectionState"
+          },
+          "portal" : {
+            "$ref" : "#/components/schemas/ConnectionState"
+          }
+        },
+        "type" : "object"
+      },
+      "ClaimingAttempt" : {
+        "example" : {
+          "user" : "john.doe@boschrexroth.de",
+          "tenant" : "Foo Company Tenant",
+          "timestamp" : "2020-07-21T17:32:28Z"
+        },
+        "properties" : {
+          "tenant" : {
+            "example" : "Foo Company Tenant",
+            "type" : "string"
+          },
+          "user" : {
+            "example" : "john.doe@boschrexroth.de",
+            "type" : "string"
+          },
+          "timestamp" : {
+            "example" : "2020-07-21T17:32:28Z",
+            "format" : "date-time",
+            "type" : "string"
+          }
+        },
+        "required" : [ "tenant", "timestamp", "user" ],
+        "type" : "object"
+      },
+      "Problem" : {
+        "description" : "This document defines a \"problem detail\" as a way  to carry machine-readable details of errors in a  HTTP response to avoid the need to define new error  response formats for HTTP APIs.\n",
+        "properties" : {
+          "type" : {
+            "default" : "about:blank",
+            "description" : "A URI reference [RFC3986] that identifies the problem type. \nThis specification encourages that, when dereferenced, \nit provide human-readable documentation for the problem type \n(e.g., using HTML [W3C.REC-html5-20141028]). When this member \nis not present, its value is assumed to be \"about:blank\".\n",
+            "example" : "https://example.com/probs/out-of-credit",
+            "format" : "uri",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\n",
+            "example" : "You do not have enough credit.",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code ([RFC7231], Section 6) generated by the \norigin server for this occurrence of the problem.\n",
+            "example" : 403,
+            "format" : "int32",
+            "type" : "number"
+          },
+          "detail" : {
+            "description" : "A human-readable explanation specific to this occurrence of the problem.\n",
+            "example" : "Your current balance is 30, but that costs 50.",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "A URI reference that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced.\n",
+            "example" : "/account/12345/msgs/abc",
+            "type" : "string"
+          },
+          "code" : {
+            "description" : "An error code issued by the system that caused the original problem.\nThis code can be used to track down the root cause of the error.\n",
+            "example" : "F360001",
+            "type" : "string"
+          },
+          "severity" : {
+            "description" : " Severity of a problem as defined RFC5424 of the Syslog standard, see https://tools.ietf.org/html/rfc5424",
+            "enum" : [ "Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Informational", "Debug" ],
+            "example" : "Error",
+            "type" : "string"
+          },
+          "links" : {
+            "description" : "Collection of links to fix the problem. E.g. links to online user manual,\nto an online community (using tags) or a developer chat (e.g. Slack).\n",
+            "items" : {
+              "example" : "https://stackoverflow.com/questions/tagged/boschrexroth+controlx+f360001",
+              "format" : "uri",
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "moreInfo" : {
+            "additionalProperties" : true,
+            "example" : {
+              "trace" : "ExampleClass.cpp#452 Null pointer exception",
+              "class" : "ExampleClass"
+            },
+            "type" : "object"
+          }
+        },
+        "required" : [ "title", "type" ],
+        "type" : "object",
+        "x-version" : "1.0.0"
+      },
+      "Certificates" : {
+        "example" : [ "cert1.pem", "cert2.pem" ],
+        "items" : {
+          "type" : "string"
+        },
+        "type" : "array"
+      },
+      "RemoteAccess" : {
+        "example" : {
+          "connected" : true,
+          "enabled" : true
+        },
+        "properties" : {
+          "connected" : {
+            "description" : "Remote access connected/disconnected",
+            "example" : true,
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "enabled" : {
+            "description" : "Remote access connection enabled/disabled",
+            "example" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "enabled" ],
+        "type" : "object"
+      },
+      "Tunnel" : {
+        "example" : {
+          "active" : false,
+          "url" : "wss://cert.device.deviceportal.bosch.com/"
+        },
+        "properties" : {
+          "active" : {
+            "deprecated" : true,
+            "example" : false,
+            "type" : "boolean"
+          },
+          "url" : {
+            "example" : "wss://cert.device.deviceportal.bosch.com/",
+            "type" : "string"
+          }
+        },
+        "required" : [ "url" ],
+        "type" : "object"
+      },
+      "CommandState" : {
+        "description" : "List of all possible command states",
+        "enum" : [ "CREATED", "REJECTED", "ACCEPTED", "SUCCESSFUL", "FAILED", "TRANSMITTED" ],
+        "example" : "SUCCESSFUL",
+        "readOnly" : true,
+        "type" : "string"
+      },
+      "ConnectionState" : {
+        "description" : "Possible states of an connection",
+        "enum" : [ "CONNECTED", "DISCONNECTED" ],
+        "example" : "CONNECTED",
+        "type" : "string"
+      }
+    },
+    "securitySchemes" : {
+      "UsernamePassword" : {
+        "description" : "Enter username and password.",
+        "flows" : {
+          "password" : {
+            "scopes" : {
+              "dummy" : "Dummy scope (scopes not used)"
+            },
+            "tokenUrl" : "/identity-manager/api/v1/auth/token"
+          }
+        },
+        "type" : "oauth2"
+      },
+      "Bearer" : {
+        "description" : "Alternatively&colon; Enter bearer token (without prefix 'Bearer').",
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  }
+}
