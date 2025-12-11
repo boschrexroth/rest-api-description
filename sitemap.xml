@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/index.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/CODE_OF_CONDUCT.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/CONTRIBUTERS.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/CONTRIBUTING.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/LICENSE.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
+         <loc>https://boschrexroth.github.io/rest-api-description/SECURITY.html</loc>
+         <lastmod>2025-12-11</lastmod>
+    </url>
+    <url>
          <loc>https://boschrexroth.github.io/rest-api-description/ctrlx-automation/ctrlx-core/index.html</loc>
          <lastmod>2025-12-11</lastmod>
     </url>
