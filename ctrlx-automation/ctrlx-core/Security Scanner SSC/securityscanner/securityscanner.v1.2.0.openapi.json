@@ -1,0 +1,1766 @@
+{
+  "openapi" : "3.0.2",
+  "info" : {
+    "contact" : {
+      "email" : "support@boschrexroth.com",
+      "name" : "Bosch Rexroth AG",
+      "url" : "https://www.boschrexroth.com"
+    },
+    "description" : "The SecurityScanner API provides network and device scanning functionality as well as security issue detection.",
+    "title" : "ctrlX CORE - Security Scanner API",
+    "version" : "1.2.0"
+  },
+  "servers" : [ {
+    "url" : "/security-scanner/api/v1"
+  }, {
+    "url" : "https://[fe80::dcad:beff:fe00:1]/security-scanner/api/v1"
+  }, {
+    "url" : "https://{host}/security-scanner/api/v1",
+    "variables" : {
+      "host" : {
+        "default" : "[fe80::dcad:beff:fe00:0001]",
+        "description" : "Hostname or ip address of the ctrlX devicepaths"
+      }
+    }
+  } ],
+  "security" : [ {
+    "UsernamePassword" : [ ]
+  }, {
+    "Bearer" : [ ]
+  } ],
+  "tags" : [ {
+    "description" : "Create, edit and delete scan jobs",
+    "name" : "ScanJobs"
+  }, {
+    "description" : "Start or stop scan job execution",
+    "name" : "Tasks"
+  }, {
+    "description" : "View scan results and download reports",
+    "name" : "Results"
+  }, {
+    "description" : "View available network interfaces",
+    "name" : "NetworkInterfaces"
+  } ],
+  "paths" : {
+    "/scanjobs" : {
+      "get" : {
+        "description" : "Returns all scan jobs",
+        "operationId" : "getScanJobs",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "hosts" : {
+                    "$ref" : "#/components/examples/hostsScanJobs"
+                  },
+                  "ports" : {
+                    "$ref" : "#/components/examples/portsScanJobs"
+                  },
+                  "custom" : {
+                    "$ref" : "#/components/examples/customScanJobs"
+                  }
+                },
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ScanJob"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Scan Jobs"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      },
+      "post" : {
+        "description" : "Creates a new scan job",
+        "operationId" : "createScanJob",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "examples" : {
+                "blank" : {
+                  "$ref" : "#/components/examples/createScanJobDto"
+                },
+                "hosts" : {
+                  "$ref" : "#/components/examples/hostsScanJob"
+                },
+                "ports" : {
+                  "$ref" : "#/components/examples/portsScanJob"
+                },
+                "custom" : {
+                  "$ref" : "#/components/examples/customScanJob"
+                }
+              },
+              "schema" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/CreateScanJobDto"
+                }, {
+                  "$ref" : "#/components/schemas/ScanJob"
+                } ]
+              }
+            }
+          },
+          "description" : "Information required to create a scan job",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ScanJob"
+                }
+              }
+            },
+            "description" : "Scan job created successfully",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      }
+    },
+    "/scanjobs/{id}" : {
+      "delete" : {
+        "description" : "Deletes a specific scan job",
+        "operationId" : "deleteScanJob",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        }, {
+          "description" : "Specifies whether scan results should be deleted along with the corresponding scan job",
+          "explode" : true,
+          "in" : "query",
+          "name" : "deleteResults",
+          "required" : false,
+          "schema" : {
+            "type" : "boolean"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content (scan job deleted)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      },
+      "get" : {
+        "description" : "Gets the configuration aspect of the scan job",
+        "operationId" : "getScanJob",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "hosts" : {
+                    "$ref" : "#/components/examples/hostsScanJob"
+                  },
+                  "ports" : {
+                    "$ref" : "#/components/examples/portsScanJob"
+                  },
+                  "custom" : {
+                    "$ref" : "#/components/examples/customScanJob"
+                  }
+                },
+                "schema" : {
+                  "$ref" : "#/components/schemas/ScanJob"
+                }
+              }
+            },
+            "description" : "Scan job"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      },
+      "put" : {
+        "description" : "Modifies the configuration aspect of the scan job",
+        "operationId" : "setScanJob",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "examples" : {
+                "hosts" : {
+                  "$ref" : "#/components/examples/hostsScanJob"
+                },
+                "ports" : {
+                  "$ref" : "#/components/examples/portsScanJob"
+                },
+                "custom" : {
+                  "$ref" : "#/components/examples/customScanJob"
+                }
+              },
+              "schema" : {
+                "$ref" : "#/components/schemas/ScanJob"
+              }
+            }
+          },
+          "description" : "Updated scan job",
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "Config updated succesfully"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      }
+    },
+    "/scanjob-statuses" : {
+      "get" : {
+        "description" : "Returns the status of all scan jobs",
+        "operationId" : "getScanJobStatuses",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ScanJobStatus"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Current statuses of all scan jobs"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "ScanJobs" ]
+      }
+    },
+    "/tasks" : {
+      "get" : {
+        "description" : "Returns all scan tasks",
+        "operationId" : "getScanTasks",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ScanTask"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Scan Tasks"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Tasks" ]
+      },
+      "post" : {
+        "description" : "Create a scan task",
+        "operationId" : "createScanTask",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ScanTask"
+              }
+            }
+          },
+          "description" : "Task object that executes a scan job",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ScanTask"
+                }
+              }
+            },
+            "description" : "Scan job task created successfully",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Tasks" ]
+      }
+    },
+    "/tasks/{id}" : {
+      "delete" : {
+        "description" : "Deletes a specific scan task",
+        "operationId" : "deleteScanTask",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job task",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content (scan job task deleted)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Tasks" ]
+      },
+      "get" : {
+        "description" : "Gets a specific scan task",
+        "operationId" : "getScanTask",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job task",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ScanTask"
+                }
+              }
+            },
+            "description" : "ScanTask"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Tasks" ]
+      }
+    },
+    "/results" : {
+      "get" : {
+        "description" : "Returns the results of all scan jobs or of an specific scan job",
+        "operationId" : "getScanResults",
+        "parameters" : [ {
+          "description" : "Id of a specific scan job",
+          "explode" : true,
+          "in" : "query",
+          "name" : "scanJobId",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/ScanResult"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "History of all scan jobs or of an specific scan job"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Results" ]
+      }
+    },
+    "/results/{id}" : {
+      "delete" : {
+        "description" : "Deletes a specific scan result",
+        "operationId" : "deleteScanResult",
+        "parameters" : [ {
+          "description" : "Id of a specific scan result",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content (scan job deleted)"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "Results" ]
+      }
+    },
+    "/results/{id}/report" : {
+      "get" : {
+        "description" : "Returns the file of an specific scan report",
+        "operationId" : "getScanReport",
+        "parameters" : [ {
+          "description" : "Id of a specific scan result",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "Scan report as file"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          }
+        },
+        "tags" : [ "Results" ]
+      }
+    },
+    "/network-interfaces" : {
+      "get" : {
+        "description" : "Returns all available network interfaces",
+        "operationId" : "getNetworkInterfaces",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/NetworkInterface"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "names of available network interfaces"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "tags" : [ "NetworkInterfaces" ]
+      }
+    }
+  },
+  "components" : {
+    "examples" : {
+      "createScanJobDto" : {
+        "value" : {
+          "scanType" : "hosts",
+          "name" : "My host discovery scan"
+        }
+      },
+      "hostsScanJob" : {
+        "value" : {
+          "id" : "",
+          "name" : "MyScan001",
+          "scanType" : "hosts",
+          "parameters" : {
+            "targets" : [ {
+              "target" : "192.168.178.0/24",
+              "comment" : "some subnet"
+            } ],
+            "expectedHosts" : [ {
+              "host" : "192.168.178.13",
+              "comment" : "some device"
+            } ],
+            "unexpectedHostPolicy" : "reportAsFailed",
+            "interfaceName" : "eth0",
+            "osDetection" : true
+          }
+        }
+      },
+      "portsScanJob" : {
+        "value" : {
+          "id" : "",
+          "name" : "MyScan001",
+          "scanType" : "ports",
+          "parameters" : {
+            "targets" : [ {
+              "target" : "192.168.178.13",
+              "comment" : "some device"
+            } ],
+            "protocols" : "tcp",
+            "policies" : [ {
+              "host" : "192.168.1.1",
+              "openTCPPortSpec" : "22,443,5560-5565",
+              "closedTCPPortSpec" : "23,80,5570-5575",
+              "openUDPPortSpec" : "65,66,5580-5585",
+              "closedUDPPortSpec" : "75,76,5590-5595",
+              "defaultPolicy" : "reportAsFailed"
+            } ],
+            "interfaceName" : "eth0",
+            "intenseScan" : true
+          }
+        }
+      },
+      "customScanJob" : {
+        "value" : {
+          "id" : "",
+          "name" : "MyScan001",
+          "scanType" : "custom",
+          "parameters" : {
+            "nmapCommandLineArguments" : "-F 192.168.0.1"
+          }
+        }
+      },
+      "hostsScanJobs" : {
+        "value" : [ {
+          "id" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+          "name" : "MyScan001",
+          "scanType" : "hosts",
+          "parameters" : {
+            "targets" : [ {
+              "target" : "192.168.178.0/24",
+              "comment" : "some subnet"
+            } ],
+            "expectedHosts" : [ {
+              "host" : "192.168.178.13",
+              "comment" : "some device"
+            } ],
+            "unexpectedHostPolicy" : "reportAsFailed",
+            "interfaceName" : "eth0",
+            "osDetection" : true
+          }
+        } ]
+      },
+      "portsScanJobs" : {
+        "value" : [ {
+          "id" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+          "name" : "MyScan001",
+          "scanType" : "ports",
+          "parameters" : {
+            "targets" : [ {
+              "target" : "192.168.178.13",
+              "comment" : "some device"
+            } ],
+            "protocols" : "tcp",
+            "policies" : [ {
+              "host" : "192.168.1.1",
+              "openTCPPortSpec" : "22,443,5560-5565",
+              "closedTCPPortSpec" : "23,80,5570-5575",
+              "openUDPPortSpec" : "65,66,5580-5585",
+              "closedUDPPortSpec" : "75,76,5590-5595",
+              "defaultPolicy" : "reportAsFailed"
+            } ],
+            "interfaceName" : "eth0",
+            "intenseScan" : true
+          }
+        } ]
+      },
+      "customScanJobs" : {
+        "value" : [ {
+          "id" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+          "name" : "MyScan001",
+          "scanType" : "custom",
+          "parameters" : {
+            "nmapCommandLineArguments" : "-F 192.168.0.1"
+          }
+        } ]
+      }
+    },
+    "parameters" : {
+      "scanJobId" : {
+        "description" : "Id of a specific scan job",
+        "explode" : false,
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "scanJobIdQuery" : {
+        "description" : "Id of a specific scan job",
+        "explode" : true,
+        "in" : "query",
+        "name" : "scanJobId",
+        "required" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "form"
+      },
+      "scanResultId" : {
+        "description" : "Id of a specific scan result",
+        "explode" : false,
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      },
+      "deleteResultsQuery" : {
+        "description" : "Specifies whether scan results should be deleted along with the corresponding scan job",
+        "explode" : true,
+        "in" : "query",
+        "name" : "deleteResults",
+        "required" : false,
+        "schema" : {
+          "type" : "boolean"
+        },
+        "style" : "form"
+      },
+      "taskId" : {
+        "description" : "Id of a specific scan job task",
+        "explode" : false,
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        },
+        "style" : "simple"
+      }
+    },
+    "responses" : {
+      "BadRequest" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The request is incomplete or malformed"
+      },
+      "Unauthorized" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Not authorized to access this resource"
+      },
+      "Forbidden" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Access forbidden for this resource"
+      },
+      "NotFound" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The resource was not found"
+      },
+      "InternalServerError" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Something unexpected happened on the server"
+      }
+    },
+    "schemas" : {
+      "ScanType" : {
+        "enum" : [ "hosts", "ports", "custom" ],
+        "example" : "hosts",
+        "type" : "string"
+      },
+      "CreateScanJobDto" : {
+        "additionalProperties" : false,
+        "description" : "Information required to create a new scan job",
+        "properties" : {
+          "name" : {
+            "example" : "MyScan001",
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "scanType" : {
+            "$ref" : "#/components/schemas/ScanType"
+          }
+        },
+        "required" : [ "name", "scanType" ],
+        "type" : "object"
+      },
+      "AnnotatedTarget" : {
+        "description" : "Scan target (IP address, subnet or IP range depending on scan type) anlong with a comment",
+        "properties" : {
+          "target" : {
+            "type" : "string"
+          },
+          "comment" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "comment", "target" ],
+        "type" : "object"
+      },
+      "DefaultPolicy" : {
+        "enum" : [ "reportAsPassed", "reportAsFailed" ],
+        "type" : "string"
+      },
+      "HostDiscoveryScanJobParameters" : {
+        "description" : "Parameters for a host discovery scan job",
+        "properties" : {
+          "targets" : {
+            "items" : {
+              "$ref" : "#/components/schemas/AnnotatedTarget"
+            },
+            "type" : "array"
+          },
+          "excludeTargets" : {
+            "items" : {
+              "$ref" : "#/components/schemas/AnnotatedTarget"
+            },
+            "type" : "array"
+          },
+          "expectedHosts" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ExpectedHost"
+            },
+            "type" : "array"
+          },
+          "unexpectedHostPolicy" : {
+            "$ref" : "#/components/schemas/DefaultPolicy"
+          },
+          "interfaceName" : {
+            "description" : "The name of the network interface to be used for scanning",
+            "example" : "eth0",
+            "type" : "string"
+          },
+          "osDetection" : {
+            "description" : "if true, detect OS of the targets",
+            "example" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "expectedHosts", "interfaceName", "osDetection", "targets", "unexpectedHostPolicy" ],
+        "type" : "object"
+      },
+      "ExpectedHost" : {
+        "description" : "IP address anlong with a comment",
+        "properties" : {
+          "host" : {
+            "type" : "string"
+          },
+          "comment" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "comment", "host" ],
+        "type" : "object"
+      },
+      "PortScanJobParameters" : {
+        "description" : "Parameters for a port scan job",
+        "properties" : {
+          "targets" : {
+            "items" : {
+              "$ref" : "#/components/schemas/AnnotatedTarget"
+            },
+            "type" : "array"
+          },
+          "excludeTargets" : {
+            "items" : {
+              "$ref" : "#/components/schemas/AnnotatedTarget"
+            },
+            "type" : "array"
+          },
+          "protocols" : {
+            "$ref" : "#/components/schemas/Protocols"
+          },
+          "policies" : {
+            "items" : {
+              "$ref" : "#/components/schemas/PortPolicy"
+            },
+            "type" : "array"
+          },
+          "interfaceName" : {
+            "description" : "The name of the network interface to be used for scanning",
+            "example" : "eth0",
+            "type" : "string"
+          },
+          "intenseScan" : {
+            "description" : "if true, detect service and version of ports",
+            "example" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "intenseScan", "interfaceName", "policies", "protocols", "targets" ],
+        "type" : "object"
+      },
+      "Protocols" : {
+        "description" : "Defines whether a port scan is performed for tcp, udp or both protocols",
+        "enum" : [ "tcp", "udp", "both" ],
+        "type" : "string"
+      },
+      "PortPolicy" : {
+        "properties" : {
+          "host" : {
+            "description" : "the host to which the port policy is applied. Can be IP address or *. If *, the policy applies to all hosts",
+            "example" : "192.168.1.1",
+            "type" : "string"
+          },
+          "openTCPPortSpec" : {
+            "description" : "expected open tcp ports. \nCan be a single port, port range or a list of ports separated by comma.\nIf empty, no open tcp ports is specified.\n",
+            "example" : "22,443,5560-5565",
+            "type" : "string"
+          },
+          "closedTCPPortSpec" : {
+            "description" : "expected closed tcp ports. \nCan be a single port, port range or a list of ports separated by comma.\nIf empty, no closed tcp ports is specified.\n",
+            "example" : "23,80,5570-5575",
+            "type" : "string"
+          },
+          "openUDPPortSpec" : {
+            "description" : "expected open udp ports. \nCan be a single port, port range or a list of ports separated by comma.\nIf empty, no open udp ports is specified.\n",
+            "example" : "65,66,5580-5585",
+            "type" : "string"
+          },
+          "closedUDPPortSpec" : {
+            "description" : "expected closed udp ports. \nCan be a single port, port range or a list of ports separated by comma.\nIf empty, no closed udp ports is specified.\n",
+            "example" : "75,76,5590-5595",
+            "type" : "string"
+          },
+          "defaultPolicy" : {
+            "$ref" : "#/components/schemas/DefaultPolicy"
+          }
+        },
+        "required" : [ "closedTCPPortSpec", "closedUDPPortSpec", "defaultPolicy", "host", "openTCPPortSpec", "openUDPPortSpec" ]
+      },
+      "CustomScanJobParameters" : {
+        "description" : "Parameters for a custom scan job",
+        "properties" : {
+          "nmapCommandLineArguments" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "nmapCommandLineArguments" ],
+        "type" : "object"
+      },
+      "ScanJob" : {
+        "additionalProperties" : false,
+        "description" : "Represents the configuration aspect of a scan job",
+        "example" : {
+          "name" : "MyScan001",
+          "id" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+          "scanType" : "hosts",
+          "parameters" : ""
+        },
+        "properties" : {
+          "id" : {
+            "example" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "name" : {
+            "example" : "MyScan001",
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "scanType" : {
+            "$ref" : "#/components/schemas/ScanType"
+          },
+          "parameters" : {
+            "discriminator" : {
+              "mapping" : {
+                "hosts" : "#/components/schemas/HostDiscoveryScanJobParameters",
+                "ports" : "#/components/schemas/PortScanJobParameters",
+                "custom" : "#/components/schemas/CustomScanJobParameters"
+              },
+              "propertyName" : "scanType"
+            },
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/HostDiscoveryScanJobParameters"
+            }, {
+              "$ref" : "#/components/schemas/PortScanJobParameters"
+            }, {
+              "$ref" : "#/components/schemas/CustomScanJobParameters"
+            } ]
+          }
+        },
+        "required" : [ "id", "name", "parameters", "scanType" ],
+        "type" : "object"
+      },
+      "ScanTask" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Task"
+        }, {
+          "$ref" : "#/components/schemas/ScanTask_allOf"
+        } ],
+        "description" : "Execute a scan job"
+      },
+      "ScanJobStatus" : {
+        "description" : "Represents the overall status of a scan job",
+        "example" : {
+          "scanJobId" : "scanJobId",
+          "hasResults" : true,
+          "progress" : 8,
+          "latestResultHasFindings" : true,
+          "taskId" : "taskId"
+        },
+        "properties" : {
+          "scanJobId" : {
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/ScanJobState"
+          },
+          "taskId" : {
+            "description" : "Id of the corresponding task if the scan job is in running state, otherwise empty string",
+            "type" : "string"
+          },
+          "hasResults" : {
+            "description" : "True if results of former job executions are available, otherwise false",
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "latestResultHasFindings" : {
+            "description" : "True if the result of the latest job execution has any findings, otherwise false",
+            "readOnly" : true,
+            "type" : "boolean"
+          },
+          "progress" : {
+            "maximum" : 100,
+            "minimum" : 0,
+            "readOnly" : true,
+            "type" : "integer"
+          }
+        },
+        "required" : [ "hasResults", "latestResultHasFindings", "progress", "scanJobId", "state", "taskId" ],
+        "type" : "object"
+      },
+      "ScanJobState" : {
+        "description" : "The current state of the scan job\n* `notready` - Scan job is not ready to be started e.g. as there is some input missing\n* `ready` - Scan job is ready to be started\n* `running` - Scan job has been started an is currently in progress\n* `aborted` - Scan job has been aborted due to request from the client. No results an no error information is available\n* `completed` - Scan job has succesfully completed, results are available\n* `failed` - Scan job failed for some reason, error information is available\nexample: running\n",
+        "enum" : [ "notready", "ready", "running", "completed", "failed" ],
+        "readOnly" : true,
+        "type" : "string"
+      },
+      "ScanResult" : {
+        "description" : "Represents the result of a specific scan job execution",
+        "example" : {
+          "scanJobId" : "scanJobId",
+          "durationSeconds" : 0,
+          "hasFindings" : true,
+          "scanJobName" : "scanJobName",
+          "startTime" : "2022-07-18T07:20:50.52Z",
+          "id" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+          "scanType" : "hosts"
+        },
+        "properties" : {
+          "id" : {
+            "example" : "84c050b9909d050dedf5976a3c47083b84a4ec0cfc0696526b8707a221f1cdc3",
+            "type" : "string"
+          },
+          "scanJobId" : {
+            "type" : "string"
+          },
+          "scanJobName" : {
+            "type" : "string"
+          },
+          "scanType" : {
+            "$ref" : "#/components/schemas/ScanType"
+          },
+          "startTime" : {
+            "description" : "RFC3339 timestamp",
+            "example" : "2022-07-18T07:20:50.52Z",
+            "type" : "string"
+          },
+          "durationSeconds" : {
+            "type" : "integer"
+          },
+          "state" : {
+            "$ref" : "#/components/schemas/ScanJobState"
+          },
+          "hasFindings" : {
+            "description" : "True if the result has any findings, otherwise false",
+            "type" : "boolean"
+          }
+        },
+        "readOnly" : true,
+        "required" : [ "durationSeconds", "hasFindings", "id", "scanJobId", "scanJobName", "scanType", "startTime", "state" ],
+        "type" : "object"
+      },
+      "NetworkInterface" : {
+        "example" : {
+          "name" : "eth0"
+        },
+        "properties" : {
+          "name" : {
+            "description" : "name of network interface",
+            "example" : "eth0",
+            "readOnly" : true,
+            "type" : "string"
+          }
+        },
+        "required" : [ "name" ],
+        "type" : "object"
+      },
+      "Problem" : {
+        "description" : "This document defines a \"problem detail\" as a way  to carry machine-readable details of errors in a  HTTP response to avoid the need to define new error  response formats for HTTP APIs.\n",
+        "properties" : {
+          "type" : {
+            "default" : "about:blank",
+            "description" : "A URI reference [RFC3986] that identifies the problem type. \nThis specification encourages that, when dereferenced, \nit provide human-readable documentation for the problem type \n(e.g., using HTML [W3C.REC-html5-20141028]). When this member \nis not present, its value is assumed to be \"about:blank\".\n",
+            "example" : "https://example.com/probs/out-of-credit",
+            "format" : "uri",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\nIf the response is a diagnostics message, it contains \nthe text associated with the mainDiagnosisCode.\n",
+            "example" : "You do not have enough credit.",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code ([RFC7231], Section 6) generated by the \norigin server for this occurrence of the problem.\n",
+            "example" : 403,
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "detail" : {
+            "description" : "A human-readable explanation specific to this occurrence of the problem.\nIf the response is a diagnostics message, it contains the text associated with\nthe detailedDiagnosisCode.\n",
+            "example" : "Your current balance is 30, but that costs 50.",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "A URI reference that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced.\n",
+            "example" : "/account/12345/msgs/abc",
+            "type" : "string"
+          },
+          "code" : {
+            "deprecated" : true,
+            "description" : "An error code issued by the system that caused the original problem.\nThis code can be used to track down the root cause of the error.\n",
+            "example" : "F360001",
+            "type" : "string"
+          },
+          "mainDiagnosisCode" : {
+            "description" : "The main diagnosis code is issued by the system that caused the problem.\nThis code can be used to track down the root cause and source of the error.\nIt can be used to search in the documentation for a solution.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "080F0100",
+            "type" : "string"
+          },
+          "detailedDiagnosisCode" : {
+            "description" : "The detailed diagnosis code issued by the system that caused the problem.\nThis code can be used to track down the detailed cause and source of the error.\nIt can be used to search in the documentation for a solution.\nThe detailed diagnosis code gives additional information about the cause of the error.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "00666001",
+            "type" : "string"
+          },
+          "dynamicDescription" : {
+            "description" : "A dynamic description gives detailed information about the occurrence of a problem.\nIt can change between different occurrences of the same error.\n",
+            "example" : "value = -4.5",
+            "type" : "string"
+          },
+          "severity" : {
+            "description" : " Severity of a problem as defined RFC5424 of the Syslog standard, see https://tools.ietf.org/html/rfc5424",
+            "enum" : [ "Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Informational", "Debug" ],
+            "example" : "Error",
+            "type" : "string"
+          },
+          "links" : {
+            "description" : "Collection of links to fix the problem. E.g. links to online user manual,\nto an online community (using tags) or a developer chat (e.g. Slack).\n",
+            "items" : {
+              "example" : "https://stackoverflow.com/questions/tagged/boschrexroth+controlx+f360001",
+              "format" : "uri",
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "moreInfo" : {
+            "additionalProperties" : true,
+            "description" : "The moreInfo field allows you to add additional information that might be necessary to debug or trace down the cause of an error.\nIt might also contain information what is needed to resolve the problem.\nThere are loosely specified fields for specific problems that can be used in these situations, e.g.:\n- On a 403 Forbidden error: The moreInfo can contain a field \"requiredPermissions\" with the required permissions seperated by comma\n- On a 402 Payment required: The moreInfo can contain a field \"requiredLicenses\" with the required licenses seperated by comma\n",
+            "example" : {
+              "trace" : "ExampleClass.cpp#452 Null pointer exception",
+              "class" : "ExampleClass"
+            },
+            "type" : "object"
+          },
+          "cause" : {
+            "description" : "Sometimes a problem might be caused by problems that occure in other components or are the root cause of a problem. In this\ncase the related problems can be added as a cause. Since it might be possible that multiple components have problems on a single\naction, cause is an array. E.g. Loading failed because several components where not able to load the configuration.\n",
+            "items" : {
+              "$ref" : "#/components/schemas/Problem"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "title", "type" ],
+        "type" : "object",
+        "x-version" : "1.0.0"
+      },
+      "Task" : {
+        "discriminator" : {
+          "propertyName" : "action"
+        },
+        "properties" : {
+          "id" : {
+            "description" : "A server generated ID used to identify the task. This ID is unique.",
+            "example" : "123",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "state" : {
+            "description" : "The state of the task.",
+            "enum" : [ "pending", "failed", "done", "running" ],
+            "example" : "running",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "action" : {
+            "description" : "The action name executed by this task. This has to be inherited and overwritten by the application.",
+            "type" : "string"
+          },
+          "progress" : {
+            "description" : "Optional progress of the task in percentage.",
+            "example" : 10,
+            "maximum" : 100,
+            "minimum" : 0,
+            "readOnly" : true,
+            "type" : "integer"
+          },
+          "eta" : {
+            "description" : "Optional ETA in RFC 3339 format.",
+            "example" : "2019-01-01T12:00:27.87+00:20",
+            "format" : "dateTime",
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "parameters" : {
+            "additionalProperties" : true,
+            "description" : "Optional map of additional parameters required by the request. Should be defined when inherited by an application.",
+            "type" : "object"
+          },
+          "result" : {
+            "additionalProperties" : true,
+            "description" : "Optional map reflecting the result of the task. May be empty until task completition. Should be defined when inherited by an application.",
+            "readOnly" : true,
+            "type" : "object"
+          }
+        },
+        "required" : [ "action", "id", "state" ],
+        "type" : "object"
+      },
+      "ScanTask_allOf_parameters" : {
+        "properties" : {
+          "scanJobId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "scanJobId" ]
+      },
+      "ScanTask_allOf" : {
+        "properties" : {
+          "action" : {
+            "enum" : [ "executeScanJob" ],
+            "type" : "string"
+          },
+          "parameters" : {
+            "$ref" : "#/components/schemas/ScanTask_allOf_parameters"
+          }
+        },
+        "required" : [ "action", "parameters" ]
+      }
+    },
+    "securitySchemes" : {
+      "UsernamePassword" : {
+        "description" : "Enter username and password",
+        "flows" : {
+          "password" : {
+            "scopes" : {
+              "dummy" : "Dummy scope (scopes not used)"
+            },
+            "tokenUrl" : "/identity-manager/api/v2/auth/token"
+          }
+        },
+        "type" : "oauth2"
+      },
+      "Bearer" : {
+        "description" : "Alternatively&colon; Enter bearer token (without prefix 'Bearer')",
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  }
+}

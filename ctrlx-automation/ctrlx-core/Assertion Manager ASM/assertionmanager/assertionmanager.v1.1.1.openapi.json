@@ -1,0 +1,1477 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "contact" : {
+      "email" : "suppport@boschrexroth.com",
+      "name" : "Bosch Rexroth AG",
+      "url" : "https://www.boschrexroth.com"
+    },
+    "description" : "This is an API for system-user-assertion management",
+    "title" : "Bosch Rexroth Assertion Manager Service",
+    "version" : "1.1.1"
+  },
+  "servers" : [ {
+    "description" : "Use this, if this page and the api are on the same server",
+    "url" : "/assertion-manager/api/v1"
+  }, {
+    "url" : "https://{host}/assertion-manager/api/{version}",
+    "variables" : {
+      "host" : {
+        "default" : "localhost",
+        "description" : "Hostname or ip address of the ctrlX device"
+      },
+      "version" : {
+        "default" : "v1",
+        "description" : "The version of the API",
+        "enum" : [ "v1" ]
+      }
+    }
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "tags" : [ {
+    "description" : "manage system user assertions",
+    "name" : "System User Assertion Management"
+  }, {
+    "description" : "manage device categories",
+    "name" : "Device Category Management"
+  }, {
+    "description" : "manage authority accounts",
+    "name" : "Authority Management"
+  } ],
+  "paths" : {
+    "/system-user-assertions" : {
+      "get" : {
+        "description" : "Lists details of all system-user-assertions",
+        "operationId" : "GetSystemUserAssertions",
+        "parameters" : [ {
+          "description" : "If true, list all assertions. Otherwise only own assertions",
+          "explode" : true,
+          "in" : "query",
+          "name" : "all",
+          "required" : true,
+          "schema" : {
+            "type" : "boolean"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json'" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/SystemUserAssertion"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK, returning details of all system-user-assertions"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "List details of all system-user-assertions",
+        "tags" : [ "System User Assertion Management" ]
+      },
+      "post" : {
+        "description" : "Create a new system-user-assertion",
+        "operationId" : "CreateSystemUserAssertion",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SystemUserAssertion"
+              }
+            }
+          },
+          "description" : "Details of to be created system-user-assertion",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SystemUserAssertion"
+                }
+              }
+            },
+            "description" : "System-user-assertion created successfully, returning details of created system-user-assertion",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Create a new system-user-assertion",
+        "tags" : [ "System User Assertion Management" ]
+      }
+    },
+    "/system-user-assertions/{id}" : {
+      "get" : {
+        "description" : "Get details of single system-user-assertion specified by id",
+        "operationId" : "GetSystemUserAssertion",
+        "parameters" : [ {
+          "description" : "Id of system-user-assertion to be fetched",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SystemUserAssertion"
+                }
+              }
+            },
+            "description" : "OK, returning details of specified system-user-assertion"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get details of single system-user-assertion",
+        "tags" : [ "System User Assertion Management" ]
+      }
+    },
+    "/system-user-assertions/{id}/file" : {
+      "get" : {
+        "description" : "Download system-user-assertion file specified by id",
+        "operationId" : "GetSystemUserAssertionFile",
+        "parameters" : [ {
+          "description" : "Id of system-user-assertion to be fetched",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/text" : {
+                "schema" : {
+                  "format" : "binary",
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : "OK, returning specified system-user-assertion file"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Download system-user-assertion file",
+        "tags" : [ "System User Assertion Management" ]
+      }
+    },
+    "/device-categories" : {
+      "get" : {
+        "description" : "Lists details of target device categories",
+        "operationId" : "GetTargetDeviceCategories",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json'" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/DeviceCategory"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK, returning details of all target device categories"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "List details of target device categories",
+        "tags" : [ "Device Category Management" ]
+      },
+      "post" : {
+        "description" : "Create a new target device category",
+        "operationId" : "CreateTargetDeviceCategory",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeviceCategory"
+              }
+            }
+          },
+          "description" : "Details of to be created target device category",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceCategory"
+                }
+              }
+            },
+            "description" : "Target device category created successfully, returning details of created target device category",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Create a new target device category",
+        "tags" : [ "Device Category Management" ]
+      }
+    },
+    "/device-categories/{id}" : {
+      "delete" : {
+        "description" : "Delete single target device category specified by id",
+        "operationId" : "DeleteTargetDeviceCategory",
+        "parameters" : [ {
+          "description" : "Id of target device category to be deleted",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK, target device category is deleted"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Delete single target device category",
+        "tags" : [ "Device Category Management" ]
+      },
+      "get" : {
+        "description" : "Get details of single target device category specified by id",
+        "operationId" : "GetTargetDeviceCategory",
+        "parameters" : [ {
+          "description" : "Id of target device category to be fetched",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeviceCategory"
+                }
+              }
+            },
+            "description" : "OK, returning details of specified target device category"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get details of single target device category",
+        "tags" : [ "Device Category Management" ]
+      },
+      "put" : {
+        "description" : "Update single target device category specified by id",
+        "operationId" : "UpdateTargetDeviceCategory",
+        "parameters" : [ {
+          "description" : "Id of target device category to be updated",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DeviceCategory"
+              }
+            }
+          },
+          "description" : "Details of to be updated target device category",
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "OK, target device category is updated"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Update single target device category",
+        "tags" : [ "Device Category Management" ]
+      }
+    },
+    "/authorities" : {
+      "get" : {
+        "description" : "Lists details of authorities",
+        "operationId" : "GetAuthorities",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json'" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/Authority"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "OK, returning details of all authorities"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "List details of authorities",
+        "tags" : [ "Authority Management" ]
+      },
+      "post" : {
+        "description" : "Create a new authority",
+        "operationId" : "CreateAuthority",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Authority"
+              }
+            }
+          },
+          "description" : "Details of to be created authority",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Authority"
+                }
+              }
+            },
+            "description" : "Authority created successfully, returning details of created authority",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Create a new authority",
+        "tags" : [ "Authority Management" ]
+      }
+    },
+    "/authorities/{id}" : {
+      "delete" : {
+        "description" : "Delete single authority specified by id",
+        "operationId" : "DeleteAuthority",
+        "parameters" : [ {
+          "description" : "Id of authority to be deleted",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK, authority is deleted"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Delete single authority",
+        "tags" : [ "Authority Management" ]
+      },
+      "get" : {
+        "description" : "Get details of single authority",
+        "operationId" : "GetAuthority",
+        "parameters" : [ {
+          "description" : "Id of authority to be fetched",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Authority"
+                }
+              }
+            },
+            "description" : "OK, returning details of specified authority"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Get details of single authority",
+        "tags" : [ "Authority Management" ]
+      },
+      "put" : {
+        "description" : "Update single authority specified by id",
+        "operationId" : "UpdateAuthority",
+        "parameters" : [ {
+          "description" : "Id of authority to be updated",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Authority"
+              }
+            }
+          },
+          "description" : "Details of to be updated authority",
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "OK, authority is updated"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Update single authority",
+        "tags" : [ "Authority Management" ]
+      }
+    },
+    "/authorities/{id}/gpg-private-key" : {
+      "post" : {
+        "description" : "Upload GPG private key file of authority and the passphrase of GPG private key.",
+        "operationId" : "UploadGPGKeyFileAndPassphrase",
+        "parameters" : [ {
+          "description" : "Id of the authority whose private key is to be uploaded",
+          "explode" : false,
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "simple"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UploadGPGPrivateKey"
+              }
+            }
+          },
+          "description" : "GPG private key file of authority and passphraase of GPG private key.",
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Upload of private key and passphrase successful.",
+            "headers" : {
+              "Location" : {
+                "description" : "The location of the newly created object",
+                "explode" : false,
+                "schema" : {
+                  "format" : "uri",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              }
+            }
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The request is incomplete or malformed"
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not authorized to access this resource"
+          },
+          "403" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Access forbidden for this resource"
+          },
+          "404" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "The resource was not found"
+          },
+          "500" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Something unexpected happened on the server"
+          }
+        },
+        "summary" : "Upload GPG private key file of authority and the passphrase of GPG private key",
+        "tags" : [ "Authority Management" ]
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "BadRequest" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The request is incomplete or malformed"
+      },
+      "Unauthorized" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Not authorized to access this resource"
+      },
+      "Forbidden" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Access forbidden for this resource"
+      },
+      "NotFound" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "The resource was not found"
+      },
+      "InternalServerError" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Problem"
+            }
+          }
+        },
+        "description" : "Something unexpected happened on the server"
+      }
+    },
+    "schemas" : {
+      "SystemUserAssertion" : {
+        "example" : {
+          "expirationDateTime" : 6,
+          "targetUsername" : "targetUsername",
+          "requesterId" : "requesterId",
+          "targetPassword" : "targetPassword",
+          "deviceNonce" : "deviceNonce",
+          "authorityId" : "authorityId",
+          "deviceCategory" : "deviceCategory",
+          "expired" : true,
+          "deviceSerialNo" : "deviceSerialNo",
+          "brandId" : "brandId",
+          "comment" : "comment",
+          "id" : "id",
+          "installationId" : "installationId",
+          "creationDateTime" : 0
+        },
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "authorityId" : {
+            "type" : "string"
+          },
+          "brandId" : {
+            "type" : "string"
+          },
+          "targetUsername" : {
+            "type" : "string"
+          },
+          "targetPassword" : {
+            "type" : "string"
+          },
+          "deviceCategory" : {
+            "type" : "string"
+          },
+          "deviceSerialNo" : {
+            "type" : "string"
+          },
+          "creationDateTime" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "expirationDateTime" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "requesterId" : {
+            "type" : "string"
+          },
+          "comment" : {
+            "type" : "string"
+          },
+          "expired" : {
+            "type" : "boolean"
+          },
+          "deviceNonce" : {
+            "type" : "string"
+          },
+          "installationId" : {
+            "description" : "Installation id of the device for which the assertion is generated. \nIt is renewed on device image flash. This invalidates existing assertions during a factory reset.\n",
+            "type" : "string"
+          }
+        },
+        "required" : [ "authorityId", "brandId", "comment", "creationDateTime", "deviceCategory", "deviceNonce", "deviceSerialNo", "expirationDateTime", "expired", "id", "requesterId", "targetPassword", "targetUsername" ],
+        "type" : "object"
+      },
+      "DeviceCategory" : {
+        "example" : {
+          "modelId" : "modelId",
+          "displayName" : "displayName",
+          "authority" : {
+            "accountId" : "accountId",
+            "trusted" : true,
+            "displayName" : "displayName",
+            "id" : "id"
+          },
+          "comment" : "comment",
+          "id" : "id"
+        },
+        "properties" : {
+          "id" : {
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "modelId" : {
+            "type" : "string"
+          },
+          "comment" : {
+            "type" : "string"
+          },
+          "authority" : {
+            "$ref" : "#/components/schemas/Authority"
+          }
+        },
+        "required" : [ "authority", "comment", "displayName", "id", "modelId" ],
+        "type" : "object"
+      },
+      "Authority" : {
+        "example" : {
+          "accountId" : "accountId",
+          "trusted" : true,
+          "displayName" : "displayName",
+          "id" : "id"
+        },
+        "properties" : {
+          "id" : {
+            "readOnly" : true,
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "accountId" : {
+            "type" : "string"
+          },
+          "trusted" : {
+            "readOnly" : true,
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "accountId", "displayName", "id" ],
+        "type" : "object"
+      },
+      "UploadGPGPrivateKey" : {
+        "description" : "To upload GPG private key file of authority and passphrase of private key.",
+        "properties" : {
+          "privateKey" : {
+            "format" : "binary",
+            "type" : "string"
+          },
+          "passphrase" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "passphrase", "privateKey" ],
+        "type" : "object"
+      },
+      "Problem" : {
+        "description" : "This document defines a \"problem detail\" as a way  to carry machine-readable details of errors in a  HTTP response to avoid the need to define new error  response formats for HTTP APIs.\n",
+        "properties" : {
+          "type" : {
+            "default" : "about:blank",
+            "description" : "A URI reference [RFC3986] that identifies the problem type. \nThis specification encourages that, when dereferenced, \nit provide human-readable documentation for the problem type \n(e.g., using HTML [W3C.REC-html5-20141028]). When this member \nis not present, its value is assumed to be \"about:blank\".\n",
+            "example" : "https://example.com/probs/out-of-credit",
+            "format" : "uri",
+            "type" : "string"
+          },
+          "title" : {
+            "description" : "A short, human-readable summary of the problem type. \nIt SHOULD NOT change from occurrence to occurrence of the problem, \nexcept for purposes of localization (e.g., using proactive content \nnegotiation; see [RFC7231], Section 3.4).\nIf the response is a diagnostics message, it contains \nthe text associated with the mainDiagnosisCode.\n",
+            "example" : "You do not have enough credit.",
+            "type" : "string"
+          },
+          "status" : {
+            "description" : "The HTTP status code ([RFC7231], Section 6) generated by the \norigin server for this occurrence of the problem.\n",
+            "example" : 403,
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "detail" : {
+            "description" : "A human-readable explanation specific to this occurrence of the problem.\nIf the response is a diagnostics message, it contains the text associated with\nthe detailedDiagnosisCode.\n",
+            "example" : "Your current balance is 30, but that costs 50.",
+            "type" : "string"
+          },
+          "instance" : {
+            "description" : "A URI reference that identifies the specific occurrence of the problem.\nIt may or may not yield further information if dereferenced.\n",
+            "example" : "/account/12345/msgs/abc",
+            "type" : "string"
+          },
+          "code" : {
+            "deprecated" : true,
+            "description" : "An error code issued by the system that caused the original problem.\nThis code can be used to track down the root cause of the error.\n",
+            "example" : "F360001",
+            "type" : "string"
+          },
+          "mainDiagnosisCode" : {
+            "description" : "The main diagnosis code is issued by the system that caused the problem.\nThis code can be used to track down the root cause and source of the error.\nIt can be used to search in the documentation for a solution.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "080F0100",
+            "type" : "string"
+          },
+          "detailedDiagnosisCode" : {
+            "description" : "The detailed diagnosis code issued by the system that caused the problem.\nThis code can be used to track down the detailed cause and source of the error.\nIt can be used to search in the documentation for a solution.\nThe detailed diagnosis code gives additional information about the cause of the error.\nIt SHOULD NOT change from occurrence to occurrence of the same problem.\n",
+            "example" : "00666001",
+            "type" : "string"
+          },
+          "dynamicDescription" : {
+            "description" : "A dynamic description gives detailed information about the occurrence of a problem.\nIt can change between different occurrences of the same error.\n",
+            "example" : "value = -4.5",
+            "type" : "string"
+          },
+          "severity" : {
+            "description" : " Severity of a problem as defined RFC5424 of the Syslog standard, see https://tools.ietf.org/html/rfc5424",
+            "enum" : [ "Emergency", "Alert", "Critical", "Error", "Warning", "Notice", "Informational", "Debug" ],
+            "example" : "Error",
+            "type" : "string"
+          },
+          "links" : {
+            "description" : "Collection of links to fix the problem. E.g. links to online user manual,\nto an online community (using tags) or a developer chat (e.g. Slack).\n",
+            "items" : {
+              "example" : "https://stackoverflow.com/questions/tagged/boschrexroth+controlx+f360001",
+              "format" : "uri",
+              "type" : "string"
+            },
+            "type" : "array"
+          },
+          "moreInfo" : {
+            "additionalProperties" : true,
+            "description" : "The moreInfo field allows you to add additional information that might be necessary to debug or trace down the cause of an error.\nIt might also contain information what is needed to resolve the problem.\nThere are loosely specified fields for specific problems that can be used in these situations, e.g.:\n- On a 403 Forbidden error: The moreInfo can contain a field \"requiredPermissions\" with the required permissions seperated by comma\n- On a 402 Payment required: The moreInfo can contain a field \"requiredLicenses\" with the required licenses seperated by comma\n",
+            "example" : {
+              "trace" : "ExampleClass.cpp#452 Null pointer exception",
+              "class" : "ExampleClass"
+            },
+            "type" : "object"
+          },
+          "cause" : {
+            "description" : "Sometimes a problem might be caused by problems that occure in other components or are the root cause of a problem. In this\ncase the related problems can be added as a cause. Since it might be possible that multiple components have problems on a single\naction, cause is an array. E.g. Loading failed because several components where not able to load the configuration.\n",
+            "items" : {
+              "$ref" : "#/components/schemas/Problem"
+            },
+            "type" : "array"
+          }
+        },
+        "required" : [ "title", "type" ],
+        "type" : "object",
+        "x-version" : "1.0.0"
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "scheme" : "bearer",
+        "type" : "http"
+      }
+    }
+  }
+}
